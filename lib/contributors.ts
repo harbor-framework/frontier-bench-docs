@@ -19,8 +19,6 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
       { name: 'Alex Shaw', github: 'alexgshaw' },
       { name: 'Andy Konwinski', github: 'andyk' },
       { name: 'Ludwig Schmidt', github: 'ludwigschmidt' },
-      { name: 'Kobe Chen', github: 'kobe0938' },
-      { name: 'Sam Vance', github: 'scvance' },
     ],
   },
   {
@@ -138,6 +136,8 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
       { name: 'Sanyam Satia', github: 'ssatia' },
       { name: 'Jessie Hu', github: 'huyouare' },
       { name: 'sherif69-sa', github: 'sherif69-sa' },
+      { name: 'Kobe Chen', github: 'kobe0938' },
+      { name: 'Sam Vance', github: 'scvance' },
     ],
   },
 ];
