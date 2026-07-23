@@ -420,7 +420,7 @@ export function LeaderboardTable() {
 
   if (isPending) {
     return (
-      <div className="rounded-xl border px-4 py-10 text-center text-sm text-muted-foreground">
+      <div className="-mx-4 rounded-none border border-x-0 px-4 py-10 text-center text-sm text-muted-foreground md:mx-0 md:rounded-xl md:border-x">
         Loading leaderboard…
       </div>
     );
@@ -428,14 +428,14 @@ export function LeaderboardTable() {
 
   if (error || !data) {
     return (
-      <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive">
+      <div className="-mx-4 rounded-none border border-x-0 border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive md:mx-0 md:rounded-xl md:border-x">
         {error?.message ?? 'Failed to load leaderboard'}
       </div>
     );
   }
 
   return (
-    <div className="w-full text-left">
+    <div className="w-full min-w-0 text-left">
       <DataTable
         columns={tableColumns}
         data={filteredRows}
@@ -465,7 +465,7 @@ export function LeaderboardTable() {
         }
         footer={
           <footer className="flex h-12 items-center justify-center border-t px-6 text-center text-sm text-muted-foreground">
-            Resolution rate of FRONTIER-BENCH tasks, ranked by agent and model
+            Resolution rate of Frontier-Bench tasks, ranked by agent and model
             performance.
           </footer>
         }

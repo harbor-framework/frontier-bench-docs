@@ -16,6 +16,10 @@ export function baseOptions(): BaseLayoutProps {
         text: 'ANNOUNCEMENT',
         url: '/announcement',
       },
+      {
+        text: 'CONTRIBUTORS',
+        url: '/contributors',
+      },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
     themeSwitch: {

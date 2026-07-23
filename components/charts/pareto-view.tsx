@@ -59,11 +59,11 @@ export function ParetoView() {
 
   if (isPending) {
     return (
-      <div className="flex w-full flex-col gap-1.5">
+      <div className="flex w-full min-w-0 flex-col gap-1.5">
         <div className="flex items-center justify-end">
           <HomeViewToggle />
         </div>
-        <div className="w-full rounded-xl border px-4 py-10 text-center text-sm text-muted-foreground">
+        <div className="-mx-4 rounded-none border border-x-0 px-4 py-10 text-center text-sm text-muted-foreground md:mx-0 md:rounded-xl md:border-x">
           Loading Pareto…
         </div>
       </div>
@@ -72,11 +72,11 @@ export function ParetoView() {
 
   if (error || !data) {
     return (
-      <div className="flex w-full flex-col gap-1.5">
+      <div className="flex w-full min-w-0 flex-col gap-1.5">
         <div className="flex items-center justify-end">
           <HomeViewToggle />
         </div>
-        <div className="w-full rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive">
+        <div className="-mx-4 rounded-none border border-x-0 border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive md:mx-0 md:rounded-xl md:border-x">
           {error?.message ?? 'Failed to load Pareto data'}
         </div>
       </div>
@@ -84,11 +84,11 @@ export function ParetoView() {
   }
 
   return (
-    <div className="flex w-full flex-col gap-1.5">
+    <div className="flex w-full min-w-0 flex-col gap-1.5">
       <div className="flex items-center justify-end">
         <HomeViewToggle />
       </div>
-      <div className="w-full overflow-hidden rounded-xl border bg-card">
+      <div className="-mx-4 min-w-0 overflow-hidden rounded-none border border-x-0 bg-card md:mx-0 md:rounded-xl md:border-x">
         <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3 uppercase">
           <span className="text-sm text-muted-foreground">{yLabel} vs</span>
           <Select

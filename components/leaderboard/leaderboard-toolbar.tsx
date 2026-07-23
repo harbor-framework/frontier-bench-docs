@@ -14,12 +14,21 @@ import { HomeViewToggle } from '@/components/home-view-toggle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -428,231 +437,453 @@ export function LeaderboardToolbar({
         </Badge>
       ))}
       <div className="flex shrink-0 items-center gap-1.5">
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label={
-                activeFilterCount > 0
-                  ? `Filters, ${activeFilterCount} selected`
-                  : 'Filters'
-              }
-              className={cn(
-                'relative',
-                activeFilterCount > 0 && 'bg-muted text-foreground',
-              )}
-            />
-          }
-        >
-          <HugeiconsIcon
-            icon={FilterIcon}
-            strokeWidth={2}
-            className="text-muted-foreground"
-          />
-          {activeFilterCount > 0 ? (
-            <span
-              aria-hidden="true"
-              className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] leading-none tabular-nums text-background"
-            >
-              {activeFilterCount}
-            </span>
-          ) : null}
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="min-w-48">
-          {filterColumns.map((column) => {
-            if (column.type === 'number' && numberBounds[column.id]) {
-              const bounds = numberBounds[column.id];
-              const range = filters.numbers[column.id] ?? bounds;
-              const isFlat = bounds.min === bounds.max;
-              const isActive =
-                range.min > bounds.min || range.max < bounds.max;
-              return (
-                <DropdownMenuSub key={column.id}>
-                  <DropdownMenuSubTrigger>
-                    <span className="min-w-0 flex-1 truncate">
-                      {column.header}
-                    </span>
-                    {isActive ? (
-                      <span className="ml-2 text-xs tabular-nums text-muted-foreground">
-                        1
-                      </span>
-                    ) : null}
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="w-64 p-3">
-                    <div
-                      className="flex flex-col gap-3"
-                      onPointerDown={(event) => event.preventDefault()}
-                    >
-                      <p className="text-xs text-muted-foreground tabular-nums">
-                        {formatNumber(range.min)} – {formatNumber(range.max)}
-                      </p>
-                      <Slider
-                        min={bounds.min}
-                        max={isFlat ? bounds.max + 1 : bounds.max}
-                        step={sliderStep(bounds)}
-                        value={[range.min, range.max]}
-                        disabled={isFlat}
-                        onValueChange={(value) => {
-                          if (Array.isArray(value)) {
-                            setNumberFilter(column.id, [...value]);
-                          }
-                        }}
-                      />
-                    </div>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-              );
-            }
-
-            if (column.type === 'date' && dateBounds[column.id]) {
-              const selected = filters.dates[column.id];
-              const dateRange: DateRange | undefined = selected?.from
-                ? {
-                    from: parseIsoDate(selected.from),
-                    to: selected.to ? parseIsoDate(selected.to) : undefined,
+        {/* Mobile: drawers below sm */}
+        <div className="flex items-center gap-1.5 sm:hidden">
+          <Drawer showSwipeHandle>
+            <DrawerTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label={
+                    activeFilterCount > 0
+                      ? `Filters, ${activeFilterCount} selected`
+                      : 'Filters'
                   }
-                : undefined;
-              const isActive = Boolean(selected?.from || selected?.to);
-              return (
-                <DropdownMenuSub key={column.id}>
-                  <DropdownMenuSubTrigger>
-                    <span className="min-w-0 flex-1 truncate">
-                      {column.header}
-                    </span>
-                    {isActive ? (
-                      <span className="ml-2 text-xs tabular-nums text-muted-foreground">
-                        1
-                      </span>
-                    ) : null}
-                  </DropdownMenuSubTrigger>
-                  <DropdownMenuSubContent className="p-2">
-                    <div onPointerDown={(event) => event.preventDefault()}>
-                      <Calendar
-                        mode="range"
-                        numberOfMonths={2}
-                        selected={dateRange}
-                        onSelect={(range) => setDateFilter(column.id, range)}
-                        defaultMonth={
-                          dateRange?.from ??
-                          parseIsoDate(dateBounds[column.id].min)
-                        }
-                        disabled={{
-                          before: parseIsoDate(dateBounds[column.id].min),
-                          after: parseIsoDate(dateBounds[column.id].max),
-                        }}
-                      />
-                    </div>
-                  </DropdownMenuSubContent>
-                </DropdownMenuSub>
-              );
-            }
+                  className={cn(
+                    'relative',
+                    activeFilterCount > 0 && 'bg-muted text-foreground',
+                  )}
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={FilterIcon}
+                strokeWidth={2}
+                className="text-muted-foreground"
+              />
+              {activeFilterCount > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] leading-none tabular-nums text-background"
+                >
+                  {activeFilterCount}
+                </span>
+              ) : null}
+            </DrawerTrigger>
+            <DrawerContent className="max-h-[85dvh]">
+              <DrawerHeader>
+                <DrawerTitle>Filters</DrawerTitle>
+              </DrawerHeader>
+              <ScrollArea className="min-h-0 flex-1">
+                <div className="flex flex-col gap-6 px-4 py-4">
+                  {filterColumns.map((column) => {
+                    if (column.type === 'number' && numberBounds[column.id]) {
+                      const bounds = numberBounds[column.id];
+                      const range = filters.numbers[column.id] ?? bounds;
+                      const isFlat = bounds.min === bounds.max;
+                      return (
+                        <div key={column.id} className="flex flex-col gap-3">
+                          <p className="text-sm font-medium uppercase">
+                            {column.header}
+                          </p>
+                          <p className="text-xs tabular-nums text-muted-foreground">
+                            {formatNumber(range.min)} – {formatNumber(range.max)}
+                          </p>
+                          <Slider
+                            min={bounds.min}
+                            max={isFlat ? bounds.max + 1 : bounds.max}
+                            step={sliderStep(bounds)}
+                            value={[range.min, range.max]}
+                            disabled={isFlat}
+                            onValueChange={(value) => {
+                              if (Array.isArray(value)) {
+                                setNumberFilter(column.id, [...value]);
+                              }
+                            }}
+                          />
+                        </div>
+                      );
+                    }
 
-            const options = setOptions[column.id];
-            if (!options?.length) return null;
-            const selected = filters.sets[column.id] ?? [];
-            const selectedSet = new Set(selected);
+                    if (column.type === 'date' && dateBounds[column.id]) {
+                      const selected = filters.dates[column.id];
+                      const dateRange: DateRange | undefined = selected?.from
+                        ? {
+                            from: parseIsoDate(selected.from),
+                            to: selected.to
+                              ? parseIsoDate(selected.to)
+                              : undefined,
+                          }
+                        : undefined;
+                      return (
+                        <div key={column.id} className="flex flex-col gap-3">
+                          <p className="text-sm font-medium uppercase">
+                            {column.header}
+                          </p>
+                          <Calendar
+                            mode="range"
+                            numberOfMonths={1}
+                            selected={dateRange}
+                            onSelect={(range) =>
+                              setDateFilter(column.id, range)
+                            }
+                            defaultMonth={
+                              dateRange?.from ??
+                              parseIsoDate(dateBounds[column.id].min)
+                            }
+                            disabled={{
+                              before: parseIsoDate(dateBounds[column.id].min),
+                              after: parseIsoDate(dateBounds[column.id].max),
+                            }}
+                          />
+                        </div>
+                      );
+                    }
 
-            return (
-              <DropdownMenuSub key={column.id}>
-                <DropdownMenuSubTrigger>
-                  <span className="min-w-0 flex-1 truncate">
-                    {column.header}
-                  </span>
-                  {selected.length > 0 ? (
-                    <span className="ml-2 text-xs tabular-nums text-muted-foreground">
-                      {selected.length}
-                    </span>
-                  ) : null}
-                </DropdownMenuSubTrigger>
-                <DropdownMenuSubContent className="min-w-44 p-0">
-                  <ScrollArea className="h-full max-h-64 [&_[data-slot=scroll-area-viewport]]:max-h-64">
-                    {options.map((option) => (
-                      <DropdownMenuCheckboxItem
-                        key={option}
-                        checked={selectedSet.has(option)}
-                        onCheckedChange={(checked) =>
-                          toggleSetValue(column.id, option, checked)
-                        }
-                      >
-                        <span className="truncate">
-                          {column.type === 'boolean'
-                            ? formatLeaderboardCell(
-                                option === 'true',
-                                'boolean',
-                              )
-                            : option}
-                        </span>
-                      </DropdownMenuCheckboxItem>
-                    ))}
-                  </ScrollArea>
-                </DropdownMenuSubContent>
-              </DropdownMenuSub>
-            );
-          })}
-          {activeFilterCount > 0 ? (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={resetFilters}>
-                Clear all
-              </DropdownMenuItem>
-            </>
-          ) : null}
-        </DropdownMenuContent>
-      </DropdownMenu>
+                    const options = setOptions[column.id];
+                    if (!options?.length) return null;
+                    const selected = filters.sets[column.id] ?? [];
+                    const selectedSet = new Set(selected);
 
-      <Popover>
-        <PopoverTrigger
-          render={
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Columns"
-              className={cn(
-                visibleColumnIds.length < columnOptions.length && 'bg-muted',
-              )}
-            />
-          }
-        >
-          <HugeiconsIcon
-            icon={LayoutThreeColumnIcon}
-            strokeWidth={2}
-            className="text-muted-foreground"
-          />
-        </PopoverTrigger>
-        <PopoverContent align="end" className="w-64 gap-0 p-0">
-          <Command>
-            <ScrollArea className="[&_[data-slot=scroll-area-viewport]]:max-h-80">
-              <CommandList className="max-h-none overflow-visible">
-                <CommandGroup>
+                    return (
+                      <div key={column.id} className="flex flex-col gap-3">
+                        <p className="text-sm font-medium uppercase">
+                          {column.header}
+                        </p>
+                        <div className="flex flex-col gap-2">
+                          {options.map((option) => (
+                            <label
+                              key={option}
+                              className="flex items-center gap-3 text-sm"
+                            >
+                              <Checkbox
+                                checked={selectedSet.has(option)}
+                                onCheckedChange={(checked) =>
+                                  toggleSetValue(
+                                    column.id,
+                                    option,
+                                    checked === true,
+                                  )
+                                }
+                              />
+                              <span className="truncate">
+                                {column.type === 'boolean'
+                                  ? formatLeaderboardCell(
+                                      option === 'true',
+                                      'boolean',
+                                    )
+                                  : option}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </ScrollArea>
+              {activeFilterCount > 0 ? (
+                <DrawerFooter>
+                  <Button variant="outline" onClick={resetFilters}>
+                    Clear all
+                  </Button>
+                </DrawerFooter>
+              ) : null}
+            </DrawerContent>
+          </Drawer>
+
+          <Drawer showSwipeHandle>
+            <DrawerTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Columns"
+                  className={cn(
+                    visibleColumnIds.length < columnOptions.length &&
+                      'bg-muted',
+                  )}
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={LayoutThreeColumnIcon}
+                strokeWidth={2}
+                className="text-muted-foreground"
+              />
+            </DrawerTrigger>
+            <DrawerContent className="max-h-[85dvh]">
+              <DrawerHeader>
+                <DrawerTitle>Columns</DrawerTitle>
+              </DrawerHeader>
+              <ScrollArea className="min-h-0 flex-1">
+                <div className="flex flex-col gap-2 px-4 py-4">
                   {columnOptions.map((column) => {
                     const selected = columnVisibility[column.id] !== false;
                     return (
-                      <CommandItem
+                      <label
                         key={column.id}
-                        value={`${column.id} ${column.label}`}
-                        data-checked={selected || undefined}
-                        disabled={!column.canHide && selected}
-                        onSelect={() => {
-                          onColumnVisibilityChange({
-                            ...columnVisibility,
-                            [column.id]: !selected,
-                          });
-                        }}
+                        className={cn(
+                          'flex items-center gap-3 text-sm',
+                          !column.canHide && selected && 'opacity-60',
+                        )}
                       >
-                        <span className="truncate">{column.label}</span>
-                      </CommandItem>
+                        <Checkbox
+                          checked={selected}
+                          disabled={!column.canHide && selected}
+                          onCheckedChange={(checked) => {
+                            onColumnVisibilityChange({
+                              ...columnVisibility,
+                              [column.id]: checked === true,
+                            });
+                          }}
+                        />
+                        <span className="truncate uppercase">{column.label}</span>
+                      </label>
                     );
                   })}
-                </CommandGroup>
-              </CommandList>
-            </ScrollArea>
-          </Command>
-        </PopoverContent>
-      </Popover>
+                </div>
+              </ScrollArea>
+            </DrawerContent>
+          </Drawer>
+        </div>
 
-      <HomeViewToggle />
+        {/* Desktop: dropdowns from sm up */}
+        <div className="hidden items-center gap-1.5 sm:flex">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label={
+                    activeFilterCount > 0
+                      ? `Filters, ${activeFilterCount} selected`
+                      : 'Filters'
+                  }
+                  className={cn(
+                    'relative',
+                    activeFilterCount > 0 && 'bg-muted text-foreground',
+                  )}
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={FilterIcon}
+                strokeWidth={2}
+                className="text-muted-foreground"
+              />
+              {activeFilterCount > 0 ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1.5 -right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] leading-none tabular-nums text-background"
+                >
+                  {activeFilterCount}
+                </span>
+              ) : null}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-48">
+              {filterColumns.map((column) => {
+                if (column.type === 'number' && numberBounds[column.id]) {
+                  const bounds = numberBounds[column.id];
+                  const range = filters.numbers[column.id] ?? bounds;
+                  const isFlat = bounds.min === bounds.max;
+                  const isActive =
+                    range.min > bounds.min || range.max < bounds.max;
+                  return (
+                    <DropdownMenuSub key={column.id}>
+                      <DropdownMenuSubTrigger>
+                        <span className="min-w-0 flex-1 truncate">
+                          {column.header}
+                        </span>
+                        {isActive ? (
+                          <span className="ml-2 text-xs tabular-nums text-muted-foreground">
+                            1
+                          </span>
+                        ) : null}
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent className="w-64 p-3">
+                        <div
+                          className="flex flex-col gap-3"
+                          onPointerDown={(event) => event.preventDefault()}
+                        >
+                          <p className="text-xs text-muted-foreground tabular-nums">
+                            {formatNumber(range.min)} –{' '}
+                            {formatNumber(range.max)}
+                          </p>
+                          <Slider
+                            min={bounds.min}
+                            max={isFlat ? bounds.max + 1 : bounds.max}
+                            step={sliderStep(bounds)}
+                            value={[range.min, range.max]}
+                            disabled={isFlat}
+                            onValueChange={(value) => {
+                              if (Array.isArray(value)) {
+                                setNumberFilter(column.id, [...value]);
+                              }
+                            }}
+                          />
+                        </div>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
+                  );
+                }
+
+                if (column.type === 'date' && dateBounds[column.id]) {
+                  const selected = filters.dates[column.id];
+                  const dateRange: DateRange | undefined = selected?.from
+                    ? {
+                        from: parseIsoDate(selected.from),
+                        to: selected.to
+                          ? parseIsoDate(selected.to)
+                          : undefined,
+                      }
+                    : undefined;
+                  const isActive = Boolean(selected?.from || selected?.to);
+                  return (
+                    <DropdownMenuSub key={column.id}>
+                      <DropdownMenuSubTrigger>
+                        <span className="min-w-0 flex-1 truncate">
+                          {column.header}
+                        </span>
+                        {isActive ? (
+                          <span className="ml-2 text-xs tabular-nums text-muted-foreground">
+                            1
+                          </span>
+                        ) : null}
+                      </DropdownMenuSubTrigger>
+                      <DropdownMenuSubContent className="p-2">
+                        <div onPointerDown={(event) => event.preventDefault()}>
+                          <Calendar
+                            mode="range"
+                            numberOfMonths={2}
+                            selected={dateRange}
+                            onSelect={(range) =>
+                              setDateFilter(column.id, range)
+                            }
+                            defaultMonth={
+                              dateRange?.from ??
+                              parseIsoDate(dateBounds[column.id].min)
+                            }
+                            disabled={{
+                              before: parseIsoDate(dateBounds[column.id].min),
+                              after: parseIsoDate(dateBounds[column.id].max),
+                            }}
+                          />
+                        </div>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuSub>
+                  );
+                }
+
+                const options = setOptions[column.id];
+                if (!options?.length) return null;
+                const selected = filters.sets[column.id] ?? [];
+                const selectedSet = new Set(selected);
+
+                return (
+                  <DropdownMenuSub key={column.id}>
+                    <DropdownMenuSubTrigger>
+                      <span className="min-w-0 flex-1 truncate">
+                        {column.header}
+                      </span>
+                      {selected.length > 0 ? (
+                        <span className="ml-2 text-xs tabular-nums text-muted-foreground">
+                          {selected.length}
+                        </span>
+                      ) : null}
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent className="min-w-44 p-0">
+                      <ScrollArea className="h-full max-h-64 [&_[data-slot=scroll-area-viewport]]:max-h-64">
+                        {options.map((option) => (
+                          <DropdownMenuCheckboxItem
+                            key={option}
+                            checked={selectedSet.has(option)}
+                            onCheckedChange={(checked) =>
+                              toggleSetValue(column.id, option, checked)
+                            }
+                          >
+                            <span className="truncate">
+                              {column.type === 'boolean'
+                                ? formatLeaderboardCell(
+                                    option === 'true',
+                                    'boolean',
+                                  )
+                                : option}
+                            </span>
+                          </DropdownMenuCheckboxItem>
+                        ))}
+                      </ScrollArea>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                );
+              })}
+              {activeFilterCount > 0 ? (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={resetFilters}>
+                    Clear all
+                  </DropdownMenuItem>
+                </>
+              ) : null}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Popover>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Columns"
+                  className={cn(
+                    visibleColumnIds.length < columnOptions.length &&
+                      'bg-muted',
+                  )}
+                />
+              }
+            >
+              <HugeiconsIcon
+                icon={LayoutThreeColumnIcon}
+                strokeWidth={2}
+                className="text-muted-foreground"
+              />
+            </PopoverTrigger>
+            <PopoverContent align="end" className="w-64 gap-0 p-0">
+              <Command>
+                <ScrollArea className="[&_[data-slot=scroll-area-viewport]]:max-h-80">
+                  <CommandList className="max-h-none overflow-visible">
+                    <CommandGroup>
+                      {columnOptions.map((column) => {
+                        const selected =
+                          columnVisibility[column.id] !== false;
+                        return (
+                          <CommandItem
+                            key={column.id}
+                            value={`${column.id} ${column.label}`}
+                            data-checked={selected || undefined}
+                            disabled={!column.canHide && selected}
+                            onSelect={() => {
+                              onColumnVisibilityChange({
+                                ...columnVisibility,
+                                [column.id]: !selected,
+                              });
+                            }}
+                          >
+                            <span className="truncate">{column.label}</span>
+                          </CommandItem>
+                        );
+                      })}
+                    </CommandGroup>
+                  </CommandList>
+                </ScrollArea>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <HomeViewToggle />
       </div>
     </div>
   );

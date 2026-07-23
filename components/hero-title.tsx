@@ -46,7 +46,7 @@ export function HeroTitle() {
   }, []);
 
   return (
-    <h1 className="text-7xl font-normal tracking-tighter uppercase">
+    <h1 className="max-w-full px-1 text-pretty text-4xl font-normal tracking-tighter uppercase sm:text-5xl md:text-7xl">
       FRONTIER-BENCH v
       <span className="inline-flex tracking-tighter tabular-nums">
         0.

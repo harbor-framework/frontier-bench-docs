@@ -311,11 +311,13 @@ export function DataTable<TData, TValue>({
   const visibleColumnCount = table.getVisibleLeafColumns().length;
 
   return (
-    <div className="flex w-full flex-col gap-1.5">
+    <div className="flex w-full min-w-0 flex-col gap-1.5">
       {toolbar ? (
-        <div className="flex items-center justify-end gap-1.5">{toolbar}</div>
+        <div className="flex min-w-0 items-center justify-end gap-1.5">
+          {toolbar}
+        </div>
       ) : null}
-      <div className="overflow-hidden rounded-xl border bg-card">
+      <div className="-mx-4 min-w-0 overflow-hidden rounded-none border border-x-0 bg-card md:mx-0 md:rounded-xl md:border-x">
       <ScrollArea className="w-full">
         <Table className="min-w-max w-full">
           <TableHeader>

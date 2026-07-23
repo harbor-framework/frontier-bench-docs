@@ -1,0 +1,148 @@
+export type Contributor = {
+  name: string;
+  /** GitHub username when the README links to github.com */
+  github?: string;
+  /** Non-GitHub profile URL */
+  href?: string;
+};
+
+export type ContributorGroup = {
+  title: string;
+  contributors: Contributor[];
+};
+
+export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
+  {
+    title: 'Project Leadership',
+    contributors: [
+      { name: 'Ryan Marten', github: 'ryanmarten' },
+      { name: 'Alex Shaw', github: 'alexgshaw' },
+      { name: 'Andy Konwinski', github: 'andyk' },
+      { name: 'Ludwig Schmidt', github: 'ludwigschmidt' },
+      { name: 'Kobe Chen', github: 'kobe0938' },
+      { name: 'Sam Vance', github: 'scvance' },
+    ],
+  },
+  {
+    title: 'Senior Reviewers',
+    contributors: [
+      { name: 'Iván Bercovich', github: 'ibercovich' },
+      { name: 'Benedikt Droste', github: 'bd317' },
+      { name: 'Tommaso Cerruti', github: 'tommasocerruti' },
+      { name: 'Steven Dillmann', github: 'StevenDillmann' },
+      { name: 'Ruiyang Wang', github: 'rynewang' },
+      { name: 'Dariush Wahdany', github: 'dwahdany' },
+      { name: 'Allen Hart', github: 'AllenGrahamHart' },
+      { name: 'Karl Krauth', github: 'k-rl' },
+    ],
+  },
+  {
+    title: 'Task Authors',
+    contributors: [
+      { name: 'ScaleAI', github: 'scaleapi' },
+      { name: 'Benedikt Droste', github: 'bd317' },
+      { name: 'Snorkel AI', github: 'snorkel-ai' },
+      { name: 'Turing', github: 'TuringEnterprises' },
+      { name: 'Allen Hart', github: 'AllenGrahamHart' },
+      { name: 'gNucleus AI', github: 'gNucleus-AI' },
+      { name: 'Boolean AI', href: 'https://www.boolean.ai/' },
+      { name: 'Nicholas Carlini', github: 'carlini' },
+      { name: 'Shengrui Lyu', github: 'shengrui-lyu' },
+      { name: 'Anjiang Wei', github: 'Anjiang-Wei' },
+      { name: 'Arpandeep Khatua', github: 'akhatua2' },
+      { name: 'Björn Plüster', github: 'bjoernpl' },
+      { name: 'Chaitanya Dwivedi', github: 'chaitanya-dwivedi' },
+      { name: 'Christine Sutcliffe', github: 'christicode' },
+      { name: 'cym2018', github: 'cym2018' },
+      { name: 'David Tivris' },
+      { name: 'Di Wang', github: 'wdi169286' },
+      { name: 'Handshake AI', github: 'Handshake-AI-Research' },
+      { name: 'Hanwen Xing', github: 'harvenstar' },
+      { name: 'Haowei Lin', github: 'linhaowei1' },
+      { name: 'Irakli Salia', github: 'Isalia20' },
+      { name: 'Jaejung Seol', github: 'jaejung-dev' },
+      { name: 'Jiajun Bao', github: 'jasonmusespresso' },
+      { name: 'Jialin Ouyang', github: 'j-bagel' },
+      { name: 'Junha Park', github: '0xjunha' },
+      { name: 'Karl Krauth', github: 'k-rl' },
+      { name: 'Liam Walsh', github: 'LiamGITZ' },
+      { name: 'Luyang Kong', github: 'JianBingJuanDaCong' },
+      { name: 'Maksim Ivanov', github: 'maks-ivanov' },
+      { name: 'Malte Ubl', github: 'cramforce' },
+      { name: 'Mikhail Liamets', github: 'caffeinatedgaze' },
+      { name: 'Orfeas Menis', github: 'orfeas-menis' },
+      { name: 'Piotr Migdal', github: 'stared' },
+      { name: 'Qingquan Bao', github: 'QingquanBao' },
+      { name: 'Raj Movva', github: 'rmovva' },
+      { name: 'Roey Ben Chaim', github: 'roeybc' },
+      { name: 'Ruiyang Wang', github: 'rynewang' },
+      { name: 'Namburi Srinath', github: 'NamburiSrinath' },
+      { name: 'Sergey Bogdanik', github: 'srbgd' },
+      { name: 'Shubham Yadav', github: 'shubham-lica' },
+      { name: 'Stephen Benjamin', github: 'stbenjam' },
+      { name: 'Tommaso Cerruti', github: 'tommasocerruti' },
+      { name: 'Tony Kung', github: 'keuw' },
+      { name: 'Walker Hughes', github: 'walkerhughes' },
+      { name: 'Xin Lan', github: 'xinlan-technology' },
+      { name: 'Himanshu Gupta' },
+      { name: 'Swaroop Mishra', github: 'swarooprm' },
+      { name: 'Chenguang Wang', github: 'wang-research-lab' },
+      { name: 'Hao He', github: 'hehao98' },
+      { name: 'Jianhong Tu', github: 'JianhongTu' },
+      { name: 'Kyle Montgomery', github: 'kylemontgomery1' },
+      { name: 'Zengji Tu', github: 'WishingCat' },
+      { name: 'Atharva Naik', github: 'atharva-naik' },
+      { name: 'David Mortensen' },
+      { name: 'Ivan Zhang' },
+      { name: 'Yash Mathur' },
+      { name: 'Emmy Liu', github: 'nightingal3' },
+      { name: 'Karanpartap Singh' },
+      { name: 'Michael Yu' },
+      { name: 'Steven Feng' },
+      { name: 'Varun Gangal' },
+      { name: 'Zhuofu Tao' },
+    ],
+  },
+  {
+    title: 'Reviewers',
+    contributors: [
+      { name: 'Hanwen Xing', github: 'harvenstar' },
+      { name: 'Joan Cabezas', github: 'josancamon19' },
+      { name: 'Justin Bauer', github: 'BauerJustin' },
+      { name: 'Kevin Xiang Li', github: 'AlienKevin' },
+      { name: 'Robert Zhang', github: 'robertzhidealx' },
+      { name: 'Aaron Feller', github: 'AaronFeller' },
+      { name: 'Alec Madayan', github: 'AlecMadayan' },
+      { name: 'Leon Chen', github: 'cliangyu' },
+      { name: 'Ben Feuer', github: 'penfever' },
+      { name: 'Xiangyi Li', github: 'xdotli' },
+      { name: 'Boxuan Li', github: 'li-boxuan' },
+      { name: 'Harsh Raj', github: 'harshraj172' },
+      { name: 'Samuel Galler', github: 'smgaller' },
+      { name: 'Lin Shi', github: 'Slimshilin' },
+      { name: 'Ivgeni Segal', github: 'isegal' },
+      { name: 'Kelly Buchanan', github: 'ekellbuch' },
+      { name: 'Walker Hughes', github: 'walkerhughes' },
+      { name: 'Shreyas P.', github: 'shreyaspimpalgaonkar' },
+      { name: 'Rishi Desai', github: 'RishiDesai' },
+      { name: 'Aaron Schneider', github: 'schneidergithub' },
+      { name: 'Irakli Salia', github: 'Isalia20' },
+      { name: 'Haowei Lin', github: 'linhaowei1' },
+      { name: 'Chris Settles', github: 'neverSettles' },
+      { name: 'Xiangning Lin', github: 'XiangningLin' },
+      { name: 'Marianna Nezhurina', github: 'marianna13' },
+      { name: 'Christine Sutcliffe', github: 'christicode' },
+      { name: 'Andrew Wang', github: 'andrewwangva' },
+      { name: 'Michał Kowalczyk', github: 'mkow' },
+      { name: 'Jin-Xiang Zhao', github: 'xiaoxiangmoe' },
+      { name: 'Sanyam Satia', github: 'ssatia' },
+      { name: 'Jessie Hu', github: 'huyouare' },
+      { name: 'sherif69-sa', github: 'sherif69-sa' },
+    ],
+  },
+];
+
+export function contributorHref(contributor: Contributor): string | undefined {
+  if (contributor.github) return `https://github.com/${contributor.github}`;
+  return contributor.href;
+}

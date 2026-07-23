@@ -37,7 +37,7 @@ export function HomeView({ leaderboard }: HomeViewProps) {
   const [view] = useQueryState('view', parseHomeView);
 
   return (
-    <div className="flex w-full flex-col items-center gap-6">
+    <div className="flex w-full min-w-0 flex-col items-center gap-6">
       <ViewContent view={view} leaderboard={leaderboard} />
       <TaskActions />
     </div>

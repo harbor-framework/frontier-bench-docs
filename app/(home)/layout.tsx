@@ -8,9 +8,9 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <HomeLayout {...baseOptions()}>
       <QueryProvider>
-        <div className="flex min-h-0 flex-1 flex-col">
-          <div className="flex min-h-0 flex-1 flex-col">{children}</div>
-          <div className="mx-4 w-full max-w-8xl sm:mx-auto sm:px-4">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">{children}</div>
+          <div className="mx-auto w-full min-w-0 max-w-8xl px-4">
             <SiteFooter />
           </div>
         </div>

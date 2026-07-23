@@ -6,6 +6,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import { HeroTitle } from '@/components/hero-title';
 import { HomeView } from '@/components/home-view';
@@ -31,8 +32,8 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="mx-4 flex w-full max-w-8xl flex-1 flex-col pt-12 sm:mx-auto sm:px-4">
-      <div className="flex min-h-0 flex-1 flex-col gap-6">
+    <div className="mx-auto flex w-full min-w-0 max-w-8xl flex-1 flex-col px-4 pt-12">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-6">
         <div className="flex flex-col items-center gap-8 text-center">
           <HeroTitle />
           <p className="max-w-xl text-balance text-lg font-normal tracking-tighter text-muted-foreground">
@@ -57,7 +58,15 @@ export default async function HomePage() {
         </div>
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <HomeView leaderboard={<LeaderboardTable />} />
+          <Suspense
+            fallback={
+              <div className="-mx-4 rounded-none border border-x-0 px-4 py-10 text-center text-sm text-muted-foreground md:mx-0 md:rounded-xl md:border-x">
+                Loading leaderboard…
+              </div>
+            }
+          >
+            <HomeView leaderboard={<LeaderboardTable />} />
+          </Suspense>
         </HydrationBoundary>
       </div>
     </div>
