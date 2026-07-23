@@ -16,6 +16,7 @@ import type {
 import { useQueryState } from 'nuqs';
 import { useMemo } from 'react';
 
+import { LeaderboardSkeleton } from '@/components/leaderboard/leaderboard-skeleton';
 import {
   applyLeaderboardFilters,
   buildFilterFacets,
@@ -419,11 +420,7 @@ export function LeaderboardTable() {
   }, [data]);
 
   if (isPending) {
-    return (
-      <div className="-mx-4 rounded-none border border-x-0 px-4 py-10 text-center text-sm text-muted-foreground md:mx-0 md:rounded-xl md:border-x">
-        Loading leaderboard…
-      </div>
-    );
+    return <LeaderboardSkeleton />;
   }
 
   if (error || !data) {

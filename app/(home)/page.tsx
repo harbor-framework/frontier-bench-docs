@@ -10,6 +10,7 @@ import { Suspense } from 'react';
 
 import { HeroTitle } from '@/components/hero-title';
 import { HomeView } from '@/components/home-view';
+import { LeaderboardSkeleton } from '@/components/leaderboard/leaderboard-skeleton';
 import { LeaderboardTable } from '@/components/leaderboard/leaderboard-table';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -58,13 +59,7 @@ export default async function HomePage() {
         </div>
 
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <Suspense
-            fallback={
-              <div className="-mx-4 rounded-none border border-x-0 px-4 py-10 text-center text-sm text-muted-foreground md:mx-0 md:rounded-xl md:border-x">
-                Loading leaderboard…
-              </div>
-            }
-          >
+          <Suspense fallback={<LeaderboardSkeleton />}>
             <HomeView leaderboard={<LeaderboardTable />} />
           </Suspense>
         </HydrationBoundary>
