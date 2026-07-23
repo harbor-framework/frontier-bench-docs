@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { GeistSans } from 'geist/font/sans';
 import { Google_Sans_Code } from 'next/font/google';
 
@@ -61,6 +62,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
     >
       <body className="flex flex-col min-h-screen font-sans antialiased">
         <AppProviders>{children}</AppProviders>
+        <Analytics />
       </body>
     </html>
   );
