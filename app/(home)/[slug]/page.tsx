@@ -5,9 +5,11 @@ import {
   DocsDescription,
   DocsTitle,
 } from 'fumadocs-ui/layouts/docs/page';
+import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import type { CSSProperties } from 'react';
+
+import { cn } from '@/lib/utils';
 
 export default async function Page(props: PageProps<'/[slug]'>) {
   const { slug } = await props.params;
@@ -18,13 +20,10 @@ export default async function Page(props: PageProps<'/[slug]'>) {
 
   return (
     <article
-      className="mx-auto w-full max-w-3xl flex-1 px-4 py-12 font-sans"
-      style={
-        {
-          '--font-sans': 'var(--font-geist-sans)',
-          '--font-heading': 'var(--font-geist-sans)',
-        } as CSSProperties
-      }
+      className={cn(
+        'content-page mx-auto w-full max-w-3xl flex-1 px-4 py-12',
+        GeistSans.className,
+      )}
     >
       <DocsTitle>{page.data.title}</DocsTitle>
       {page.data.description ? (

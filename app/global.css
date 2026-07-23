@@ -61,6 +61,48 @@
   letter-spacing: -0.025em;
 }
 
+/* Content pages (/run, /announcement): Geist Sans for prose, Code for headings/code. */
+.content-page {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.content-page :is(p, li, blockquote, td, th, label) {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.content-page :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-google-sans-code), ui-monospace, monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+}
+
+.content-page h1 {
+  letter-spacing: -0.025em;
+  font-size: 3.5rem;
+  line-height: 1.1;
+}
+
+/* Fumadocs wraps heading text in an <a>; keep mono there. */
+.content-page :is(h1, h2, h3, h4, h5, h6) :is(a, span) {
+  font-family: inherit;
+}
+
+.content-page :is(pre, code, kbd, samp) {
+  font-family: var(--font-google-sans-code), ui-monospace, monospace;
+}
+
+/* Fumadocs codeblocks ship with shadow-sm + card bg. */
+.shiki {
+  box-shadow: none;
+  background-color: var(--sidebar) !important;
+}
+
+/* Border between fumadocs Tabs list and the code panel. */
+.content-page div.rounded-xl.border.bg-fd-secondary > div:first-child {
+  border-bottom: 1px solid var(--border);
+}
+
 /* Fumadocs search kbd inherits text-sm; capital K reads much larger than ⌘. */
 button[data-search-full] kbd {
   display: inline-flex;

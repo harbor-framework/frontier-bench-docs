@@ -1,15 +1,27 @@
 ---
 title: Run Frontier-Bench
-description: Placeholder run guide.
+description: A guide for running Frontier-Bench.
 ---
-
-Harbor is the official evaluation harness for Frontier-Bench.
 
 ## Install Harbor
 
-<Tabs items={["uv", "pip"]}>
-  <Tab value="uv">```bash uv tool install harbor[modal] ```</Tab>
-  <Tab value="pip">```bash pip install harbor[modal] ```</Tab>
+Frontier-Bench runs in [Harbor](https://www.harborframework.com).
+
+<Tabs items={['uv', 'pip']}>
+  <Tab value="uv">
+
+```bash
+uv tool install 'harbor[modal]'
+```
+
+  </Tab>
+  <Tab value="pip">
+
+```bash
+pip install 'harbor[modal]'
+```
+
+  </Tab>
 </Tabs>
 
 ## Run Frontier-Bench
@@ -34,7 +46,7 @@ harbor view jobs
 
 ## Upload results
 
-You can also upload your results to Harbor Hub to store for later or share with others. All uploads are private by default.
+You can also upload your results to [Harbor Hub](https://hub.harborframework.com) to store for later or share with others. All uploads are private by default.
 
 ```bash
 harbor upload jobs/<name> # or harbor run ... --upload
@@ -42,4 +54,4 @@ harbor upload jobs/<name> # or harbor run ... --upload
 
 ## Join our community
 
-If you enjoy the benchmark or have feedback for how we can make it better, join our Discord and let us know!
+If you enjoy the benchmark or have feedback for how we can make it better, [join our Discord](https://discord.gg/QVvyhRw5UQ) and let us know!
