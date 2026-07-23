@@ -1,0 +1,48 @@
+import { getMDXComponents } from '@/components/mdx';
+import { pagesSource } from '@/lib/source';
+import {
+  DocsBody,
+  DocsDescription,
+  DocsTitle,
+} from 'fumadocs-ui/layouts/docs/page';
+import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+export default async function Page(props: PageProps<'/[slug]'>) {
+  const { slug } = await props.params;
+  const page = pagesSource.getPage([slug]);
+  if (!page) notFound();
+
+  const MDX = page.data.body;
+
+  return (
+    <article className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
+      <DocsTitle>{page.data.title}</DocsTitle>
+      {page.data.description ? (
+        <DocsDescription>{page.data.description}</DocsDescription>
+      ) : null}
+      <DocsBody>
+        <MDX components={getMDXComponents()} />
+      </DocsBody>
+    </article>
+  );
+}
+
+export function generateStaticParams() {
+  return pagesSource.getPages().map((page) => ({
+    slug: page.slugs[0],
+  }));
+}
+
+export async function generateMetadata(
+  props: PageProps<'/[slug]'>,
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const page = pagesSource.getPage([slug]);
+  if (!page) notFound();
+
+  return {
+    title: page.data.title,
+    description: page.data.description,
+  };
+}

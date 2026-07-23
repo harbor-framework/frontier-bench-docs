@@ -1,4 +1,4 @@
-import { docs } from 'collections/server';
+import { docs, pages } from 'collections/server';
 import { loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { docsContentRoute, docsImageRoute, docsRoute } from './shared';
@@ -8,6 +8,12 @@ export const source = loader({
   baseUrl: docsRoute,
   source: docs.toFumadocsSource(),
   plugins: [lucideIconsPlugin()],
+});
+
+/** Nav MDX pages — same MDX pipeline, no docs sidebar layout. */
+export const pagesSource = loader({
+  baseUrl: '/',
+  source: pages.toFumadocsSource(),
 });
 
 export function getPageImage(page: (typeof source)['$inferPage']) {

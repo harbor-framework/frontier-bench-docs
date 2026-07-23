@@ -1,0 +1,198 @@
+export type JsonObject = Record<string, unknown>;
+
+export type LeaderboardColumnType =
+  | 'text'
+  | 'number'
+  | 'boolean'
+  | 'date'
+  | 'markdown'
+  | 'link';
+
+export type LeaderboardColumn = {
+  id: string;
+  header: string;
+  accessor: string;
+  type: LeaderboardColumnType;
+  display_accessor?: string | null;
+  display_type?: LeaderboardColumnType | null;
+  align?: 'left' | 'center' | 'right';
+  description?: string;
+  enable_sorting?: boolean | null;
+};
+
+export type LeaderboardRow = {
+  id: string;
+  leaderboard_id: string;
+  rank: number | null;
+  metadata: JsonObject;
+  metrics: JsonObject;
+  status: 'display' | 'hide';
+  created_at: string;
+  updated_at: string;
+  n_trials: number;
+};
+
+export type LeaderboardReadResponse = {
+  leaderboard: {
+    id: string;
+    package_id: string;
+    package: string | null;
+    dataset_version_ids: string[];
+    name: string;
+    title: string;
+    description: string | null;
+    columns: LeaderboardColumn[];
+    visibility: 'public' | 'private';
+    created_at: string;
+    updated_at: string;
+  };
+  rows: LeaderboardRow[];
+  pagination?: {
+    total: number;
+    page: number;
+    page_size: number;
+    total_pages: number;
+  };
+};
+
+export const FRONTIER_BENCH_PACKAGE = 'frontier-bench/frontier-bench';
+/** Hub path is org/package/leaderboard — board name is `frontier-bench` (not `main`). */
+export const FRONTIER_BENCH_LEADERBOARD = 'frontier-bench';
+export const HARBOR_HUB_URL = 'https://hub.harborframework.com';
+
+export const leaderboardQueryKey = (
+  packageName: string,
+  name: string,
+) => ['leaderboard', packageName, name] as const;
+
+/** Harbor Hub dataset page for a package. */
+export function harborDatasetUrl(
+  packageName: string,
+  version = 'latest',
+): string {
+  const [org, name] = packageName.split('/');
+  return `${HARBOR_HUB_URL}/datasets/${encodeURIComponent(org)}/${encodeURIComponent(name)}/${encodeURIComponent(version)}`;
+}
+
+/** Harbor Hub detail page for a leaderboard row. */
+export function harborLeaderboardRowUrl(
+  packageName: string,
+  leaderboardName: string,
+  rowId: string,
+  version = 'latest',
+): string {
+  const [org, name] = packageName.split('/');
+  return `${HARBOR_HUB_URL}/datasets/${encodeURIComponent(org)}/${encodeURIComponent(name)}/${encodeURIComponent(version)}/leaderboards/${encodeURIComponent(leaderboardName)}/rows/${encodeURIComponent(rowId)}`;
+}
+
+function getSupabaseConfig() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+  if (!url || !key) {
+    throw new Error(
+      'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+    );
+  }
+  return { url, key };
+}
+
+export async function fetchLeaderboard(
+  packageName: string,
+  name: string,
+): Promise<LeaderboardReadResponse> {
+  const { url, key } = getSupabaseConfig();
+  const response = await fetch(`${url}/functions/v1/leaderboard-read`, {
+    method: 'POST',
+    headers: {
+      apikey: key,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      package: packageName,
+      name,
+    }),
+  });
+
+  const payload = (await response.json()) as
+    | LeaderboardReadResponse
+    | { error?: { message?: string; code?: string } };
+
+  if (!response.ok) {
+    const message =
+      'error' in payload && payload.error?.message
+        ? payload.error.message
+        : `leaderboard-read failed (${response.status})`;
+    throw new Error(message);
+  }
+
+  return payload as LeaderboardReadResponse;
+}
+
+export function getAccessorValue(
+  row: LeaderboardRow,
+  accessor: string,
+): unknown {
+  const [root, ...path] = accessor.split('.');
+  let value: unknown =
+    root === 'metadata'
+      ? row.metadata
+      : root === 'metrics'
+        ? row.metrics
+        : null;
+
+  for (const segment of path) {
+    if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+      return null;
+    }
+    value = (value as JsonObject)[segment];
+  }
+
+  return value;
+}
+
+export type LeaderboardLinkValue = {
+  url: string;
+  label: string;
+};
+
+export function parseLeaderboardLink(
+  value: unknown,
+): LeaderboardLinkValue | null {
+  if (typeof value !== 'object' || value === null) return null;
+  const url = 'url' in value ? (value as { url: unknown }).url : null;
+  const label = 'label' in value ? (value as { label: unknown }).label : null;
+  if (typeof url !== 'string' || !url) return null;
+  if (typeof label !== 'string' || !label) return null;
+  return { url, label };
+}
+
+export function formatLeaderboardCell(
+  value: unknown,
+  type: LeaderboardColumnType,
+): string {
+  if (value == null || value === '') return '—';
+
+  switch (type) {
+    case 'boolean':
+      return value ? 'Yes' : 'No';
+    case 'number': {
+      if (typeof value !== 'number' || Number.isNaN(value)) return String(value);
+      return Number.isInteger(value)
+        ? value.toLocaleString('en-US')
+        : value.toLocaleString('en-US', { maximumFractionDigits: 2 });
+    }
+    case 'markdown':
+      return String(value).replace(/\*\*(.*?)\*\*/g, '$1');
+    case 'link': {
+      const link = parseLeaderboardLink(value);
+      return link?.label ?? String(value);
+    }
+    case 'date':
+    case 'text':
+      return String(value);
+    default: {
+      const _exhaustive: never = type;
+      return String(_exhaustive);
+    }
+  }
+}

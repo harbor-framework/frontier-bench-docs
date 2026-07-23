@@ -7,6 +7,19 @@ export function baseOptions(): BaseLayoutProps {
       // JSX supported
       title: appName,
     },
+    links: [
+      {
+        text: 'Announcement',
+        url: '/announcement',
+      },
+      {
+        text: 'Run Frontier-Bench',
+        url: '/run',
+      },
+    ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
+    themeSwitch: {
+      mode: 'light-dark-system',
+    },
   };
 }

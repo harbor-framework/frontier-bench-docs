@@ -16,6 +16,17 @@ export const docs = defineDocs({
   },
 });
 
+/** Standalone MDX pages (nav links) — rendered without the docs sidebar layout. */
+export const pages = defineDocs({
+  dir: 'content/pages',
+  docs: {
+    schema: pageSchema,
+  },
+  meta: {
+    schema: metaSchema,
+  },
+});
+
 export default defineConfig({
   mdxOptions: {
     // MDX options
