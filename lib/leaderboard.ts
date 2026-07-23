@@ -59,6 +59,9 @@ export const FRONTIER_BENCH_PACKAGE = 'frontier-bench/frontier-bench';
 /** Hub path is org/package/leaderboard — board name is `frontier-bench` (not `main`). */
 export const FRONTIER_BENCH_LEADERBOARD = 'frontier-bench';
 export const HARBOR_HUB_URL = 'https://hub.harborframework.com';
+/** Public Harbor Hub edge-function host (leaderboard-read does not require auth). */
+export const HARBOR_HUB_FUNCTIONS_URL =
+  'https://ofhuhcpkvzjlejydnvyd.supabase.co';
 
 export const leaderboardQueryKey = (
   packageName: string,
@@ -85,33 +88,23 @@ export function harborLeaderboardRowUrl(
   return `${HARBOR_HUB_URL}/datasets/${encodeURIComponent(org)}/${encodeURIComponent(name)}/${encodeURIComponent(version)}/leaderboards/${encodeURIComponent(leaderboardName)}/rows/${encodeURIComponent(rowId)}`;
 }
 
-function getSupabaseConfig() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) {
-    throw new Error(
-      'Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
-    );
-  }
-  return { url, key };
-}
-
 export async function fetchLeaderboard(
   packageName: string,
   name: string,
 ): Promise<LeaderboardReadResponse> {
-  const { url, key } = getSupabaseConfig();
-  const response = await fetch(`${url}/functions/v1/leaderboard-read`, {
-    method: 'POST',
-    headers: {
-      apikey: key,
-      'Content-Type': 'application/json',
+  const response = await fetch(
+    `${HARBOR_HUB_FUNCTIONS_URL}/functions/v1/leaderboard-read`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        package: packageName,
+        name,
+      }),
     },
-    body: JSON.stringify({
-      package: packageName,
-      name,
-    }),
-  });
+  );
 
   const payload = (await response.json()) as
     | LeaderboardReadResponse
