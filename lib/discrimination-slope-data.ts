@@ -61,6 +61,7 @@ export function buildDiscriminationSlopeData(): DiscriminationSlopePoint[] {
 
   for (const frontier of ANNOUNCEMENT_LEADERBOARD_SNAPSHOT) {
     if (frontier.status !== 'display') continue;
+    if (frontier.model === 'GPT-5.6 Sol') continue;
     const key = agentModelKey(frontier);
     if (seen.has(key)) continue;
     seen.add(key);

@@ -79,8 +79,21 @@
 
 .content-page h1 {
   letter-spacing: -0.05em;
-  font-size: 3.5rem;
+  /* Match landing hero scale on small screens; keep 3.5rem at md+. */
+  font-size: 2.25rem; /* text-4xl */
   line-height: 1.1;
+}
+
+@media (min-width: 640px) {
+  .content-page h1 {
+    font-size: 3rem; /* text-5xl */
+  }
+}
+
+@media (min-width: 768px) {
+  .content-page h1 {
+    font-size: 3.5rem;
+  }
 }
 
 .content-page :is(h2, h3, h4, h5, h6) {

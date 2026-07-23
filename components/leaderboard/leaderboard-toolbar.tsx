@@ -404,7 +404,7 @@ export function LeaderboardToolbar({
           type="button"
           variant="ghost"
           size="sm"
-          className="h-8 shrink-0 px-2.5 text-xs font-medium text-muted-foreground"
+          className="hidden h-8 shrink-0 px-2.5 text-xs font-medium text-muted-foreground sm:inline-flex"
           onClick={resetFilters}
         >
           Clear all
@@ -414,7 +414,7 @@ export function LeaderboardToolbar({
         <Badge
           key={chip.key}
           variant="outline"
-          className="h-8 gap-0 rounded-lg bg-card px-2 py-0 font-sans text-xs font-normal"
+          className="hidden h-8 gap-0 rounded-lg bg-card px-2 py-0 font-sans text-xs font-normal sm:inline-flex"
         >
           <span className="self-center font-medium uppercase leading-none text-muted-foreground">
             {chip.header}
@@ -471,12 +471,15 @@ export function LeaderboardToolbar({
                 </span>
               ) : null}
             </DrawerTrigger>
-            <DrawerContent className="max-h-[85dvh]">
+            <DrawerContent className="max-h-[85dvh] overflow-hidden">
               <DrawerHeader>
                 <DrawerTitle>Filters</DrawerTitle>
               </DrawerHeader>
-              <ScrollArea className="min-h-0 flex-1">
-                <div className="flex flex-col gap-6 px-4 py-4">
+              <div
+                data-base-ui-swipe-ignore=""
+                className="relative z-0 min-h-0 flex-1 overflow-y-auto overscroll-contain"
+              >
+                <div className="flex flex-col gap-6 px-4 pt-4 pb-8">
                   {filterColumns.map((column) => {
                     if (column.type === 'number' && numberBounds[column.id]) {
                       const bounds = numberBounds[column.id];
@@ -506,40 +509,8 @@ export function LeaderboardToolbar({
                       );
                     }
 
-                    if (column.type === 'date' && dateBounds[column.id]) {
-                      const selected = filters.dates[column.id];
-                      const dateRange: DateRange | undefined = selected?.from
-                        ? {
-                            from: parseIsoDate(selected.from),
-                            to: selected.to
-                              ? parseIsoDate(selected.to)
-                              : undefined,
-                          }
-                        : undefined;
-                      return (
-                        <div key={column.id} className="flex flex-col gap-3">
-                          <p className="text-sm font-medium uppercase">
-                            {column.header}
-                          </p>
-                          <Calendar
-                            mode="range"
-                            numberOfMonths={1}
-                            selected={dateRange}
-                            onSelect={(range) =>
-                              setDateFilter(column.id, range)
-                            }
-                            defaultMonth={
-                              dateRange?.from ??
-                              parseIsoDate(dateBounds[column.id].min)
-                            }
-                            disabled={{
-                              before: parseIsoDate(dateBounds[column.id].min),
-                              after: parseIsoDate(dateBounds[column.id].max),
-                            }}
-                          />
-                        </div>
-                      );
-                    }
+                    // Date-range calendars are desktop-only; skip on mobile.
+                    if (column.type === 'date') return null;
 
                     const options = setOptions[column.id];
                     if (!options?.length) return null;
@@ -582,10 +553,15 @@ export function LeaderboardToolbar({
                     );
                   })}
                 </div>
-              </ScrollArea>
+              </div>
               {activeFilterCount > 0 ? (
                 <DrawerFooter>
-                  <Button variant="outline" onClick={resetFilters}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="w-full"
+                    onClick={resetFilters}
+                  >
                     Clear all
                   </Button>
                 </DrawerFooter>
@@ -613,11 +589,14 @@ export function LeaderboardToolbar({
                 className="text-muted-foreground"
               />
             </DrawerTrigger>
-            <DrawerContent className="max-h-[85dvh]">
+            <DrawerContent className="max-h-[85dvh] overflow-hidden">
               <DrawerHeader>
                 <DrawerTitle>Columns</DrawerTitle>
               </DrawerHeader>
-              <ScrollArea className="min-h-0 flex-1">
+              <div
+                data-base-ui-swipe-ignore=""
+                className="min-h-0 flex-1 overflow-y-auto overscroll-contain"
+              >
                 <div className="flex flex-col gap-2 px-4 py-4">
                   {columnOptions.map((column) => {
                     const selected = columnVisibility[column.id] !== false;
@@ -644,7 +623,7 @@ export function LeaderboardToolbar({
                     );
                   })}
                 </div>
-              </ScrollArea>
+              </div>
             </DrawerContent>
           </Drawer>
         </div>

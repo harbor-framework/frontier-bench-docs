@@ -31,14 +31,14 @@ function Box({ x, y, width, height, lines }: BoxProps) {
         y={y}
         width={width}
         height={height}
-        className="fill-background stroke-foreground"
+        className="fill-foreground stroke-foreground"
         strokeWidth={1.25}
       />
       <text
         x={x + width / 2}
         y={startY}
         textAnchor="middle"
-        className="fill-foreground font-mono"
+        className="fill-background font-mono"
         fontSize={FONT_SIZE}
       >
         {lines.map((line, index) => (

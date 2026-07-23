@@ -64,7 +64,7 @@ function RowPad({
 
 export function ContributorsGrid() {
   return (
-    <div className="grid w-full grid-cols-2 gap-px overflow-hidden rounded-xl bg-border p-px sm:grid-cols-3 md:grid-cols-4">
+    <div className="-mx-4 grid w-auto grid-cols-2 gap-px overflow-hidden rounded-none bg-border py-px sm:grid-cols-3 md:mx-0 md:w-full md:grid-cols-4 md:rounded-xl md:p-px">
       {CONTRIBUTOR_GROUPS.map((group) => {
         const count = group.contributors.length;
         const pad2 = rowPadCount(count, 2);

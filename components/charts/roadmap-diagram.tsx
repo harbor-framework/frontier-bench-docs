@@ -44,7 +44,7 @@ function LabeledBox({
         y={y}
         width={width}
         height={height}
-        className="fill-background stroke-foreground"
+        className="fill-foreground stroke-foreground"
         strokeWidth={1.25}
       />
       <text
@@ -52,7 +52,7 @@ function LabeledBox({
         y={y + height / 2 + 1}
         textAnchor="middle"
         dominantBaseline="central"
-        className="fill-foreground font-mono"
+        className="fill-background font-mono"
         fontSize={FONT_SIZE}
       >
         {label}
@@ -80,7 +80,7 @@ function BarChartIcon({ x, y }: { x: number; y: number }) {
           y={CHART_BAR_BASE - bar.h}
           width={14}
           height={bar.h}
-          className="fill-none stroke-foreground"
+          className="fill-foreground stroke-foreground"
           strokeWidth={1.5}
         />
       ))}
@@ -93,7 +93,7 @@ function WarningIcon({ x, y }: { x: number; y: number }) {
     <g transform={`translate(${x} ${y})`}>
       <path
         d="M18 4 L34 30 L2 30 Z"
-        className="fill-none stroke-foreground"
+        className="fill-foreground stroke-foreground"
         strokeWidth={1.5}
         strokeLinejoin="miter"
       />
@@ -101,7 +101,7 @@ function WarningIcon({ x, y }: { x: number; y: number }) {
         x={18}
         y={24}
         textAnchor="middle"
-        className="fill-foreground font-mono"
+        className="fill-background font-mono"
         fontSize={14}
         fontWeight={600}
       >
