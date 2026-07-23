@@ -9,12 +9,12 @@ export function baseOptions(): BaseLayoutProps {
     },
     links: [
       {
-        text: 'Announcement',
-        url: '/announcement',
+        text: 'RUN FRONTIER-BENCH',
+        url: '/run',
       },
       {
-        text: 'Run Frontier-Bench',
-        url: '/run',
+        text: 'ANNOUNCEMENT',
+        url: '/announcement',
       },
     ],
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,

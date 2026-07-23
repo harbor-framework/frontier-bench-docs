@@ -10,6 +10,7 @@ import type { DateRange } from 'react-day-picker';
 import type { OnChangeFn, VisibilityState } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
+import { HomeViewToggle } from '@/components/home-view-toggle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -654,6 +655,8 @@ export function LeaderboardToolbar({
           </Command>
         </PopoverContent>
       </Popover>
+
+      <HomeViewToggle />
       </div>
     </div>
   );

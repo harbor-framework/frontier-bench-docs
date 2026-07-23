@@ -3,4 +3,43 @@ title: Run Frontier-Bench
 description: Placeholder run guide.
 ---
 
-Placeholder content for running Frontier-Bench.
+Harbor is the official evaluation harness for Frontier-Bench.
+
+## Install Harbor
+
+<Tabs items={["uv", "pip"]}>
+  <Tab value="uv">```bash uv tool install harbor[modal] ```</Tab>
+  <Tab value="pip">```bash pip install harbor[modal] ```</Tab>
+</Tabs>
+
+## Run Frontier-Bench
+
+Frontier-Bench contains 4 tasks that require GPUs so you need to run it with a sandbox that has GPU access. We used Modal for our experiments. Daytona also recently added GPU support and we hope others will follow suite.
+
+```bash
+harbor run -d frontier-bench/frontier-bench \
+  -e modal \
+  -a claude-code \
+  -m anthropic/claude-sonnet-5 \
+  -n 32
+```
+
+## Analyze results
+
+You can run the Harbor viewer if you want to inspect your experiment results.
+
+```bash
+harbor view jobs
+```
+
+## Upload results
+
+You can also upload your results to Harbor Hub to store for later or share with others. All uploads are private by default.
+
+```bash
+harbor upload jobs/<name> # or harbor run ... --upload
+```
+
+## Join our community
+
+If you enjoy the benchmark or have feedback for how we can make it better, join our Discord and let us know!

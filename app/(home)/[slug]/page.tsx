@@ -7,6 +7,7 @@ import {
 } from 'fumadocs-ui/layouts/docs/page';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import type { CSSProperties } from 'react';
 
 export default async function Page(props: PageProps<'/[slug]'>) {
   const { slug } = await props.params;
@@ -16,7 +17,15 @@ export default async function Page(props: PageProps<'/[slug]'>) {
   const MDX = page.data.body;
 
   return (
-    <article className="mx-auto w-full max-w-3xl flex-1 px-4 py-12">
+    <article
+      className="mx-auto w-full max-w-3xl flex-1 px-4 py-12 font-sans"
+      style={
+        {
+          '--font-sans': 'var(--font-geist-sans)',
+          '--font-heading': 'var(--font-geist-sans)',
+        } as CSSProperties
+      }
+    >
       <DocsTitle>{page.data.title}</DocsTitle>
       {page.data.description ? (
         <DocsDescription>{page.data.description}</DocsDescription>

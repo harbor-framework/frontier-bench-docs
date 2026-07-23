@@ -76,7 +76,12 @@ export const leaderboardFiltersParser = parseAsJson(parseUrlFilters).withDefault
   {},
 );
 
-export const hiddenColumnsParser = parseAsArrayOf(parseAsString).withDefault([]);
+/** Hidden unless the user turns them back on in the columns picker. */
+export const DEFAULT_HIDDEN_COLUMNS = ['agent_org', 'model_org'] as const;
+
+export const hiddenColumnsParser = parseAsArrayOf(parseAsString)
+  .withDefault([...DEFAULT_HIDDEN_COLUMNS])
+  .withOptions({ clearOnDefault: true });
 
 /** Keep only active filters for a compact shareable URL. */
 export function toUrlFilters(

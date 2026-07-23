@@ -315,7 +315,7 @@ export function DataTable<TData, TValue>({
       {toolbar ? (
         <div className="flex items-center justify-end gap-1.5">{toolbar}</div>
       ) : null}
-      <div className="overflow-hidden rounded-xl border bg-card shadow-xl shadow-sidebar dark:shadow-none">
+      <div className="overflow-hidden rounded-xl border bg-card">
       <ScrollArea className="w-full">
         <Table className="min-w-max w-full">
           <TableHeader>

@@ -120,6 +120,51 @@ function LeaderboardCell({
   }
 }
 
+const Z_95 = 1.96;
+
+function AccuracyBarCell({ row }: { row: LeaderboardRow }) {
+  const accuracy = getAccessorValue(row, 'metrics.accuracy');
+  const stderr = getAccessorValue(row, 'metrics.accuracy_stderr');
+  const display = getAccessorValue(row, 'metrics.display_accuracy');
+
+  const value =
+    typeof accuracy === 'number' && !Number.isNaN(accuracy) ? accuracy : null;
+  const se =
+    typeof stderr === 'number' && !Number.isNaN(stderr) ? stderr : 0;
+  const half = Z_95 * se;
+  const ciUpper = value != null ? Math.min(100, value + half) : 0;
+  const ciWidth = value != null ? Math.max(0, ciUpper - value) : 0;
+
+  if (value == null) {
+    return (
+      <LeaderboardCell value={display ?? accuracy} type="markdown" />
+    );
+  }
+
+  return (
+    <div className="flex min-w-52 items-center gap-3">
+      <div className="w-28 shrink-0 tabular-nums">
+        <LeaderboardCell value={display ?? accuracy} type="markdown" />
+      </div>
+      <div className="relative h-3 min-w-0 flex-1 overflow-hidden rounded-none bg-muted">
+        <div
+          className="absolute inset-y-0 left-0 rounded-none bg-foreground/80"
+          style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
+        />
+        {ciWidth > 0 ? (
+          <div
+            className="absolute inset-y-0 rounded-none bg-foreground/15"
+            style={{
+              left: `${Math.min(100, Math.max(0, value))}%`,
+              width: `${ciWidth}%`,
+            }}
+          />
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function SortableHeader({
   column,
   label,
@@ -141,7 +186,7 @@ function SortableHeader({
     <button
       type="button"
       className={cn(
-        'inline-flex items-center gap-1.5 font-medium hover:text-foreground',
+        'inline-flex items-center gap-1.5 font-medium uppercase hover:text-foreground',
         align === 'right' && 'ml-auto',
         align === 'center' && 'mx-auto',
       )}
@@ -155,6 +200,42 @@ function SortableHeader({
       />
     </button>
   );
+}
+
+const HIDDEN_TABLE_COLUMN_IDS = new Set(['reasoning_effort']);
+
+function displayColumnHeader(column: LeaderboardColumn): string {
+  const label = column.id === 'accuracy' ? 'Resolution Rate' : column.header;
+  return label.toUpperCase();
+}
+
+/** Prefer Model before Agent until Hub column order is updated. */
+function orderLeaderboardColumns(
+  columns: LeaderboardColumn[],
+): LeaderboardColumn[] {
+  const byId = new Map(columns.map((column) => [column.id, column]));
+  if (!byId.has('agent_display') || !byId.has('model_display')) {
+    return columns;
+  }
+
+  const ordered: LeaderboardColumn[] = [];
+  let emittedPair = false;
+  for (const column of columns) {
+    if (
+      column.id === 'agent_display' ||
+      column.id === 'model_display'
+    ) {
+      if (emittedPair) continue;
+      emittedPair = true;
+      const model = byId.get('model_display');
+      const agent = byId.get('agent_display');
+      if (model) ordered.push(model);
+      if (agent) ordered.push(agent);
+      continue;
+    }
+    ordered.push(column);
+  }
+  return ordered;
 }
 
 function buildColumns(
@@ -176,35 +257,70 @@ function buildColumns(
     },
   };
 
-  const dataColumns = columns.map((column): ColumnDef<LeaderboardRow> => {
-    const displayType = column.display_type ?? column.type;
-    const align = alignClass(column.align);
-    const sortable = SORTABLE_COLUMN_IDS.has(column.id);
-    return {
-      id: column.id,
-      accessorFn: (row) => getAccessorValue(row, column.accessor),
-      header: sortable
-        ? ({ column: tableColumn }) => (
-            <SortableHeader
-              column={tableColumn}
-              label={column.header}
-              align={column.align}
-            />
-          )
-        : column.header,
-      cell: ({ row }) => {
-        const value = column.display_accessor
-          ? getAccessorValue(row.original, column.display_accessor)
-          : getAccessorValue(row.original, column.accessor);
-        return <LeaderboardCell value={value} type={displayType} />;
-      },
-      enableSorting: sortable,
-      meta: {
-        headerClassName: align,
-        cellClassName: cn(align, column.type === 'number' && 'tabular-nums'),
-      },
-    };
-  });
+  const dataColumns = orderLeaderboardColumns(columns)
+    .filter((column) => !HIDDEN_TABLE_COLUMN_IDS.has(column.id))
+    .map((column): ColumnDef<LeaderboardRow> => {
+      const displayType = column.display_type ?? column.type;
+      const columnAlign =
+        column.id === 'accuracy' ? 'left' : column.align;
+      const align = alignClass(columnAlign);
+      const sortable = SORTABLE_COLUMN_IDS.has(column.id);
+      const headerLabel = displayColumnHeader(column);
+      return {
+        id: column.id,
+        accessorFn: (row) => getAccessorValue(row, column.accessor),
+        header: sortable
+          ? ({ column: tableColumn }) => (
+              <SortableHeader
+                column={tableColumn}
+                label={headerLabel}
+                align={columnAlign}
+              />
+            )
+          : headerLabel,
+        cell: ({ row }) => {
+          const value = column.display_accessor
+            ? getAccessorValue(row.original, column.display_accessor)
+            : getAccessorValue(row.original, column.accessor);
+
+          if (column.id === 'model_display') {
+            const effort = getAccessorValue(
+              row.original,
+              'metadata.reasoning_effort',
+            );
+            const effortLabel =
+              typeof effort === 'string' && effort.trim()
+                ? effort.trim()
+                : null;
+            return (
+              <span className="inline-flex items-baseline gap-1">
+                <LeaderboardCell value={value} type={displayType} />
+                {effortLabel ? (
+                  <span className="text-xs text-muted-foreground">
+                    ({effortLabel})
+                  </span>
+                ) : null}
+              </span>
+            );
+          }
+
+          if (column.id === 'accuracy') {
+            return <AccuracyBarCell row={row.original} />;
+          }
+
+          return <LeaderboardCell value={value} type={displayType} />;
+        },
+        enableSorting: sortable,
+        meta: {
+          headerClassName: align,
+          cellClassName: cn(
+            align,
+            column.type === 'number' && 'tabular-nums',
+            column.id === 'accuracy' && 'min-w-56',
+          ),
+        },
+      };
+    });
 
   return [rankColumn, ...dataColumns];
 }
@@ -264,7 +380,8 @@ export function LeaderboardTable() {
     const hidden = Object.entries(next)
       .filter(([, visible]) => visible === false)
       .map(([id]) => id);
-    void setHiddenColumns(hidden.length > 0 ? hidden : null);
+    // Persist [] when everything is visible so defaults don't snap back on.
+    void setHiddenColumns(hidden);
   };
 
   const filteredRows = useMemo(() => {
@@ -286,12 +403,22 @@ export function LeaderboardTable() {
     if (!data) return [];
     return [
       { id: 'rank', label: '#', canHide: true },
-      ...data.leaderboard.columns.map((column) => ({
-        id: column.id,
-        label: column.header,
-        canHide: true,
-      })),
+      ...orderLeaderboardColumns(data.leaderboard.columns)
+        .filter((column) => !HIDDEN_TABLE_COLUMN_IDS.has(column.id))
+        .map((column) => ({
+          id: column.id,
+          label: displayColumnHeader(column),
+          canHide: true,
+        })),
     ];
+  }, [data]);
+
+  const toolbarColumns = useMemo(() => {
+    if (!data) return [];
+    return data.leaderboard.columns.map((column) => ({
+      ...column,
+      header: displayColumnHeader(column),
+    }));
   }, [data]);
 
   if (isPending) {
@@ -316,7 +443,6 @@ export function LeaderboardTable() {
         columns={tableColumns}
         data={filteredRows}
         emptyMessage="No leaderboard rows match the current filters."
-        enableRowSelection
         getRowId={(row) => row.id}
         getRowHref={(row) =>
           harborLeaderboardRowUrl(
@@ -329,7 +455,7 @@ export function LeaderboardTable() {
         onColumnVisibilityChange={handleColumnVisibilityChange}
         toolbar={
           <LeaderboardToolbar
-            columns={data.leaderboard.columns}
+            columns={toolbarColumns}
             columnOptions={columnOptions}
             filters={filters}
             onFiltersChange={handleFiltersChange}
@@ -341,7 +467,7 @@ export function LeaderboardTable() {
           />
         }
         footer={
-          <footer className="flex h-12 items-center justify-center border-t bg-sidebar px-6 text-center text-sm text-muted-foreground">
+          <footer className="flex h-12 items-center justify-center border-t px-6 text-center text-sm text-muted-foreground">
             Resolution rate of Frontier-Bench tasks, ranked by agent and model
             performance.
           </footer>
