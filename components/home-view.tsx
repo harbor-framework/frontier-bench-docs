@@ -8,6 +8,7 @@ import {
   parseHomeView,
   type HomeViewId,
 } from '@/components/home-view-toggle';
+import { TaskActions } from '@/components/task-actions';
 
 type HomeViewProps = {
   leaderboard: ReactNode;
@@ -35,5 +36,10 @@ function ViewContent({
 export function HomeView({ leaderboard }: HomeViewProps) {
   const [view] = useQueryState('view', parseHomeView);
 
-  return <ViewContent view={view} leaderboard={leaderboard} />;
+  return (
+    <div className="flex w-full flex-col items-center gap-6">
+      <ViewContent view={view} leaderboard={leaderboard} />
+      <TaskActions />
+    </div>
+  );
 }

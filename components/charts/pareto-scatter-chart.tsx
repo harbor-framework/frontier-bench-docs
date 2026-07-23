@@ -159,7 +159,8 @@ type ParetoScatterChartProps = {
 type ActiveTip = {
   id: string;
   label: string;
-  detail: string;
+  yValue: string;
+  xValue: string;
   cx: number;
   cy: number;
 };
@@ -349,8 +350,6 @@ export function ParetoScatterChart({
                 ? `${modelText.slice(0, budget)}…`
                 : modelText;
           }
-          const detail = `${yAxis.format(datum.y)} · ${xAxis.format(datum.x)}`;
-
           return (
             <g key={datum.id}>
               {/* Invisible hit target in SVG space (avoids HTML/SVG coordinate drift). */}
@@ -364,7 +363,8 @@ export function ParetoScatterChart({
                   setActive({
                     id: datum.id,
                     label: datum.label.full,
-                    detail,
+                    yValue: yAxis.format(datum.y),
+                    xValue: xAxis.format(datum.x),
                     cx,
                     cy,
                   });
@@ -431,12 +431,15 @@ export function ParetoScatterChart({
             top: active?.cy ?? 0,
           }}
         />
-        <TooltipContent side="top" sideOffset={10}>
+        <TooltipContent side="top" sideOffset={10} className="min-w-40">
           {active ? (
-            <p>
-              {active.label}
-              <span className="mt-0.5 block opacity-70">{active.detail}</span>
-            </p>
+            <div className="flex flex-col gap-0.5">
+              <p>{active.label}</p>
+              <p className="flex items-baseline justify-between gap-6 opacity-70">
+                <span>{active.yValue}</span>
+                <span>{active.xValue}</span>
+              </p>
+            </div>
           ) : null}
         </TooltipContent>
       </Tooltip>

@@ -2,7 +2,6 @@
 
 import {
   ArrowDown01Icon,
-  ArrowRight01Icon,
   ArrowUp01Icon,
   ArrowUpDownIcon,
 } from '@hugeicons/core-free-icons';
@@ -23,7 +22,6 @@ import {
   LeaderboardToolbar,
   type LeaderboardFilters,
 } from '@/components/leaderboard/leaderboard-toolbar';
-import { buttonVariants } from '@/components/ui/button';
 import { DataTable } from '@/components/ui/data-table';
 import {
   FRONTIER_BENCH_LEADERBOARD,
@@ -31,7 +29,6 @@ import {
   fetchLeaderboard,
   formatLeaderboardCell,
   getAccessorValue,
-  harborDatasetUrl,
   harborLeaderboardRowUrl,
   leaderboardQueryKey,
   parseLeaderboardLink,
@@ -438,7 +435,7 @@ export function LeaderboardTable() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center gap-6 text-left">
+    <div className="w-full text-left">
       <DataTable
         columns={tableColumns}
         data={filteredRows}
@@ -473,15 +470,6 @@ export function LeaderboardTable() {
           </footer>
         }
       />
-      <a
-        href={harborDatasetUrl(FRONTIER_BENCH_PACKAGE)}
-        target="_blank"
-        rel="noreferrer"
-        className={buttonVariants({ variant: 'outline', size: 'lg' })}
-      >
-        View the tasks
-        <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
-      </a>
     </div>
   );
 }

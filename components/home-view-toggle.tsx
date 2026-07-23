@@ -39,19 +39,22 @@ export function HomeViewToggle({ className }: { className?: string }) {
           void setView(value as HomeViewId);
         }
       }}
-      className={cn('inline-flex h-8 items-center', className)}
+      className={cn(
+        'inline-flex h-8 items-center overflow-hidden rounded-lg border border-border',
+        className,
+      )}
     >
       {VIEWS.map((item) => (
         <TogglePrimitive
           key={item}
           value={item}
           className={cn(
-            buttonVariants({ variant: 'outline', size: 'default' }),
-            'relative h-8 rounded-none px-3 -ml-px first:ml-0',
-            'first:rounded-l-lg last:rounded-r-lg',
-            'focus-visible:z-10 data-pressed:z-10',
-            'data-pressed:border-border data-pressed:bg-muted data-pressed:text-foreground',
-            'dark:data-pressed:bg-muted',
+            buttonVariants({ variant: 'ghost', size: 'default' }),
+            'relative h-8 rounded-none border-0 px-3',
+            'not-last:border-r not-last:border-border',
+            'text-muted-foreground',
+            'data-pressed:bg-muted data-pressed:text-foreground',
+            'dark:data-pressed:bg-input',
           )}
         >
           {VIEW_LABELS[item]}

@@ -78,9 +78,13 @@
 }
 
 .content-page h1 {
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
   font-size: 3.5rem;
   line-height: 1.1;
+}
+
+.content-page :is(h2, h3, h4, h5, h6) {
+  font-weight: 500;
 }
 
 /* Fumadocs wraps heading text in an <a>; keep mono there. */
@@ -172,7 +176,7 @@ html > body[data-scroll-locked] {
   --accent: oklch(0.274 0.006 286.033);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(0.3023 0 0);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.552 0.016 285.938);
   --chart-1: oklch(0.871 0.006 286.286);

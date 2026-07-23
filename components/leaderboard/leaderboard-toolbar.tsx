@@ -2,7 +2,7 @@
 
 import {
   Cancel01Icon,
-  FilterMailIcon,
+  FilterIcon,
   LayoutThreeColumnIcon,
 } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -449,7 +449,7 @@ export function LeaderboardToolbar({
           }
         >
           <HugeiconsIcon
-            icon={FilterMailIcon}
+            icon={FilterIcon}
             strokeWidth={2}
             className="text-muted-foreground"
           />

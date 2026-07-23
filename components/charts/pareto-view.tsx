@@ -76,7 +76,6 @@ export function ParetoView() {
   return (
     <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-xl border bg-card">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
-        <HomeViewToggle />
         <div className="flex flex-wrap items-center gap-2 uppercase">
           <span className="text-sm text-muted-foreground">{yLabel} vs</span>
           <Select
@@ -89,11 +88,11 @@ export function ParetoView() {
           >
             <SelectTrigger
               size="sm"
-              className="min-w-36 bg-background uppercase dark:bg-background"
+              className="min-w-36 bg-background uppercase dark:bg-card"
             >
               <SelectValue>{xLabel}</SelectValue>
             </SelectTrigger>
-            <SelectContent align="end">
+            <SelectContent align="start">
               {PARETO_X_AXIS_IDS.map((axisId) => (
                 <SelectItem key={axisId} value={axisId} className="uppercase">
                   {PARETO_AXES[axisId].label}
@@ -102,6 +101,7 @@ export function ParetoView() {
             </SelectContent>
           </Select>
         </div>
+        <HomeViewToggle />
       </div>
       <ParetoScatterChart
         data={chartData}
