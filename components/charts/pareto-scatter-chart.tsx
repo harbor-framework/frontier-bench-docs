@@ -24,7 +24,7 @@ export type ParetoDatum = {
 };
 
 const MIN_WIDTH = 480;
-const HEIGHT = 520;
+const HEIGHT = 580;
 const MARGIN = { top: 20, right: 28, bottom: 52, left: 84 };
 /** Half-side length of plot markers (squares). */
 const DOT_HALF = 4;

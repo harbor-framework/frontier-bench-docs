@@ -59,24 +59,37 @@ export function ParetoView() {
 
   if (isPending) {
     return (
-      <div className="mx-auto w-full max-w-6xl rounded-xl border px-4 py-10 text-center text-sm text-muted-foreground">
-        Loading Pareto…
+      <div className="flex w-full flex-col gap-1.5">
+        <div className="flex items-center justify-end">
+          <HomeViewToggle />
+        </div>
+        <div className="w-full rounded-xl border px-4 py-10 text-center text-sm text-muted-foreground">
+          Loading Pareto…
+        </div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="mx-auto w-full max-w-6xl rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive">
-        {error?.message ?? 'Failed to load Pareto data'}
+      <div className="flex w-full flex-col gap-1.5">
+        <div className="flex items-center justify-end">
+          <HomeViewToggle />
+        </div>
+        <div className="w-full rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-10 text-center text-sm text-destructive">
+          {error?.message ?? 'Failed to load Pareto data'}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-xl border bg-card">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
-        <div className="flex flex-wrap items-center gap-2 uppercase">
+    <div className="flex w-full flex-col gap-1.5">
+      <div className="flex items-center justify-end">
+        <HomeViewToggle />
+      </div>
+      <div className="w-full overflow-hidden rounded-xl border bg-card">
+        <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3 uppercase">
           <span className="text-sm text-muted-foreground">{yLabel} vs</span>
           <Select
             value={xAxisId}
@@ -101,14 +114,13 @@ export function ParetoView() {
             </SelectContent>
           </Select>
         </div>
-        <HomeViewToggle />
+        <ParetoScatterChart
+          data={chartData}
+          xAxisId={xAxisId}
+          yAxisId={yAxisId}
+          className="px-2 py-3"
+        />
       </div>
-      <ParetoScatterChart
-        data={chartData}
-        xAxisId={xAxisId}
-        yAxisId={yAxisId}
-        className="px-2 py-3"
-      />
     </div>
   );
 }

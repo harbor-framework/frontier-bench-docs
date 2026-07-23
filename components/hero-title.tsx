@@ -47,7 +47,7 @@ export function HeroTitle() {
 
   return (
     <h1 className="text-7xl font-normal tracking-tighter uppercase">
-      Frontier-Bench v
+      FRONTIER-BENCH v
       <span className="inline-flex tracking-tighter tabular-nums">
         0.
         <DigitReel value={tenths} />

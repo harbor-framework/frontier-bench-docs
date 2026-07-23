@@ -16,9 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Command,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
@@ -625,10 +623,8 @@ export function LeaderboardToolbar({
         </PopoverTrigger>
         <PopoverContent align="end" className="w-64 gap-0 p-0">
           <Command>
-            <CommandInput placeholder="Search columns..." />
             <ScrollArea className="[&_[data-slot=scroll-area-viewport]]:max-h-80">
               <CommandList className="max-h-none overflow-visible">
-                <CommandEmpty>No columns.</CommandEmpty>
                 <CommandGroup>
                   {columnOptions.map((column) => {
                     const selected = columnVisibility[column.id] !== false;

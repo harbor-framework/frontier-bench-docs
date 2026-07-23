@@ -1,11 +1,11 @@
 ---
-title: Run Frontier-Bench
-description: A guide for running Frontier-Bench.
+title: Run FRONTIER-BENCH
+description: A guide for running FRONTIER-BENCH.
 ---
 
 ## Install Harbor
 
-Frontier-Bench runs in [Harbor](https://www.harborframework.com).
+FRONTIER-BENCH runs in [Harbor](https://www.harborframework.com).
 
 <Tabs items={['uv', 'pip']}>
   <Tab value="uv">
@@ -24,9 +24,9 @@ pip install 'harbor[modal]'
   </Tab>
 </Tabs>
 
-## Run Frontier-Bench
+## Run FRONTIER-BENCH
 
-Frontier-Bench contains 4 tasks that require GPUs so you need to run it with a sandbox that has GPU access. We used Modal for our experiments. Daytona also recently added GPU support and we hope others will follow suite.
+FRONTIER-BENCH contains 4 tasks that require GPUs so you need to run it with a sandbox that has GPU access. We used Modal for our experiments. Daytona also recently added GPU support and we hope others will follow suite.
 
 ```bash
 harbor run -d frontier-bench/frontier-bench \

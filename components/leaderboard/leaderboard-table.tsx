@@ -240,7 +240,7 @@ function buildColumns(
 ): ColumnDef<LeaderboardRow>[] {
   const rankColumn: ColumnDef<LeaderboardRow> = {
     id: 'rank',
-    header: '#',
+    header: 'RANK',
     accessorFn: (row) => row.rank,
     cell: ({ row }) => (
       <span className="tabular-nums text-muted-foreground">
@@ -399,7 +399,7 @@ export function LeaderboardTable() {
   const columnOptions = useMemo(() => {
     if (!data) return [];
     return [
-      { id: 'rank', label: '#', canHide: true },
+      { id: 'rank', label: 'RANK', canHide: true },
       ...orderLeaderboardColumns(data.leaderboard.columns)
         .filter((column) => !HIDDEN_TABLE_COLUMN_IDS.has(column.id))
         .map((column) => ({
@@ -465,7 +465,7 @@ export function LeaderboardTable() {
         }
         footer={
           <footer className="flex h-12 items-center justify-center border-t px-6 text-center text-sm text-muted-foreground">
-            Resolution rate of Frontier-Bench tasks, ranked by agent and model
+            Resolution rate of FRONTIER-BENCH tasks, ranked by agent and model
             performance.
           </footer>
         }
