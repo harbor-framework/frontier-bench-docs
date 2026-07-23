@@ -36,8 +36,8 @@ export default async function HomePage() {
           <h1 className="text-7xl font-normal tracking-tighter uppercase">
             Frontier-Bench v0.1
           </h1>
-          <p className="max-w-xl text-lg font-normal tracking-tighter text-muted-foreground">
-            A benchmark to capture the frontier of agentic work
+          <p className="max-w-xl text-balance text-lg font-normal tracking-tighter text-muted-foreground">
+            A benchmark to measure and evolve with the frontier of agent work
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Link

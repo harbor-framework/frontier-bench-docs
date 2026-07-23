@@ -6,7 +6,6 @@ import {
   FRONTIER_BENCH_PACKAGE,
   harborDatasetUrl,
 } from '@/lib/leaderboard';
-import { gitConfig } from '@/lib/shared';
 
 export function TaskActions() {
   return (
@@ -21,7 +20,7 @@ export function TaskActions() {
         <HugeiconsIcon icon={ArrowRight01Icon} strokeWidth={2} />
       </a>
       <a
-        href={`https://github.com/${gitConfig.user}/${gitConfig.repo}`}
+        href="https://github.com/harbor-framework/frontier-bench/blob/main/CONTRIBUTING.md"
         target="_blank"
         rel="noreferrer"
         className={buttonVariants({ variant: 'secondary', size: 'lg' })}

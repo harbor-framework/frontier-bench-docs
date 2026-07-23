@@ -11,7 +11,7 @@ export function SiteFooter() {
           href="https://tbench.ai"
           target="_blank"
           rel="noreferrer"
-          className="transition-colors hover:text-foreground hover:underline"
+          className="text-foreground hover:underline"
         >
           Terminal-Bench
         </a>{' '}
@@ -20,11 +20,10 @@ export function SiteFooter() {
           href="https://harborframework.com"
           target="_blank"
           rel="noreferrer"
-          className="transition-colors hover:text-foreground hover:underline"
+          className="text-foreground hover:underline"
         >
           Harbor
-        </a>{' '}
-        ❤️
+        </a>
       </p>
     </footer>
   );
