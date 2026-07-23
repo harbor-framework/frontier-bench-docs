@@ -294,9 +294,6 @@ export function RoadmapDiagram() {
           Issues
         </text>
       </svg>
-      <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-        Roadmap
-      </figcaption>
     </figure>
   );
 }

@@ -3,8 +3,6 @@ title: Frontier-Bench
 description: Frontier-Bench measures agent abilities at the frontier.
 ---
 
-Frontier-Bench measures agent abilities at the frontier.
-
 Built by the team behind [Terminal-Bench](https://www.tbench.ai/) and [Harbor](https://www.harborframework.com/), Frontier-Bench is an on-going large-scale community effort to source the most diverse, difficult and high-quality tasks.
 
 Our first release contains [74 tasks across 7 domains](https://github.com/harbor-framework/frontier-bench#task-distribution). The best models achieve ~34% on Frontier-Bench v0.1, the best open weight models trail behind scoring ~5%.
@@ -53,7 +51,7 @@ Frontier-Bench discriminates better between frontier and sub-frontier models tha
 
 <DiscriminationSlopeChart />
 
-While frontier models Fable 5 and GPT-5.6 Sol achieve similar performance on Frontier-Bench v0.1, cost and token usage varies significantly. GPT-5.6 Sol is ~40% cheaper and uses ~50% fewer tokens than Fable 5. All of the GPT-5.6 models (Sol, Terra, Luna) appear on the cost vs pass rate Pareto front for the models we ran.\*
+While frontier models Fable 5 and GPT-5.6 Sol achieve similar performance on Frontier-Bench v0.1, cost and token usage varies significantly. GPT-5.6 Sol is ~40% cheaper and uses ~50% fewer tokens than Fable 5. All of the GPT-5.6 models (Sol, Terra, Luna) appear on the cost vs pass rate Pareto front for the models we ran.[^1]
 
 <CostPassRateParetoChart />
 
@@ -83,6 +81,6 @@ We appreciate our sponsors who made this project possible including [Modal](http
 
 Frontier-Bench is hosted by Harbor and Laude Institute.
 
-\*Grok 4.5 were removed from this chart due to cost reporting issues.
-
 **Written by:** Ryan Marten, Alex Shaw, Andy Konwinski, Ludwig Schmidt
+
+[^1]: Grok 4.5 was removed from this chart due to a cost reporting issue with the Cursor CLI harness.

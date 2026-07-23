@@ -109,6 +109,25 @@
   font-family: var(--font-google-sans-code), ui-monospace, monospace;
 }
 
+/* GFM footnotes */
+.content-page [data-footnote-ref] {
+  font-size: 0.75em;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.content-page section.footnotes {
+  margin-top: 2.5rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-muted-foreground);
+}
+
+.content-page section.footnotes h2 {
+  display: none;
+}
+
 /* Fumadocs codeblocks ship with shadow-sm + card bg. */
 .shiki {
   box-shadow: none;
