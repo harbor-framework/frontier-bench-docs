@@ -24,7 +24,7 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
   {
     title: 'Senior Reviewers',
     contributors: [
-      { name: 'Iván Bercovich', github: 'ibercovich' },
+      { name: 'Ivan Bercovich', github: 'ibercovich' },
       { name: 'Benedikt Droste', github: 'bd317' },
       { name: 'Tommaso Cerruti', github: 'tommasocerruti' },
       { name: 'Steven Dillmann', github: 'StevenDillmann' },
