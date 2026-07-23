@@ -36,10 +36,15 @@ export default async function HomePage() {
     <div className="mx-auto flex w-full min-w-0 max-w-8xl flex-1 flex-col px-4 pt-12">
       <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-6">
         <div className="flex flex-col items-center gap-8 text-center">
-          <HeroTitle />
-          <p className="max-w-xl text-balance text-lg font-normal tracking-tighter text-muted-foreground">
-            A benchmark to measure and evolve with the frontier of agent work
-          </p>
+          <div className="flex flex-col items-center gap-5">
+            <HeroTitle />
+            <p className="text-xs font-normal text-muted-foreground">
+              (formerly Terminal-Bench 3.0)
+            </p>
+            <p className="max-w-xl text-balance text-lg font-normal tracking-tighter text-muted-foreground">
+              A benchmark to measure and evolve with the frontier of agent work
+            </p>
+          </div>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <Link
               href="/run"
