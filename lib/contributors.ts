@@ -22,6 +22,14 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
     ],
   },
   {
+    title: 'Advisors',
+    contributors: [
+      { name: 'Gian Segato', github: 'giansegato' },
+      { name: 'Mike Merrill', github: 'mikemerrill' },
+      { name: 'Nicholas Carlini', github: 'carlini' },
+    ],
+  },
+  {
     title: 'Senior Reviewers',
     contributors: [
       { name: 'Ivan Bercovich', github: 'ibercovich' },
@@ -71,7 +79,7 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
       { name: 'Orfeas Menis', github: 'orfeas-menis' },
       { name: 'Piotr Migdal', github: 'stared' },
       { name: 'Qingquan Bao', github: 'QingquanBao' },
-      { name: 'Raj Movva', github: 'rmovva' },
+      { name: 'Rajiv Movva', github: 'rmovva' },
       { name: 'Roey Ben Chaim', github: 'roeybc' },
       { name: 'Ruiyang Wang', github: 'rynewang' },
       { name: 'Namburi Srinath', github: 'NamburiSrinath' },
