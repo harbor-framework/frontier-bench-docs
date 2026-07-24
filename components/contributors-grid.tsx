@@ -74,7 +74,7 @@ export function ContributorsGrid() {
 
         return (
           <div key={group.title} className="contents">
-            <div className="col-span-full flex h-10 items-center bg-card px-2.5">
+            <div className="col-span-full flex h-10 items-center bg-sidebar px-2.5">
               <h2 className="text-sm font-medium tracking-tight text-muted-foreground uppercase">
                 {group.title}
               </h2>
