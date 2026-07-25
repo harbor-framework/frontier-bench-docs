@@ -3,6 +3,8 @@
 import { Toggle as TogglePrimitive } from '@base-ui/react/toggle';
 import { ToggleGroup as ToggleGroupPrimitive } from '@base-ui/react/toggle-group';
 import { createParser, useQueryState } from 'nuqs';
+import { useCallback } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -29,6 +31,29 @@ export const parseHomeView = createParser({
 
 export function HomeViewToggle({ className }: { className?: string }) {
   const [view, setView] = useQueryState('view', parseHomeView);
+
+  const cycleView = useCallback(
+    (direction: 1 | -1) => {
+      const index = VIEWS.indexOf(view);
+      const next =
+        VIEWS[(index + direction + VIEWS.length) % VIEWS.length]!;
+      void setView(next);
+    },
+    [setView, view],
+  );
+
+  useHotkeys(
+    'right,j',
+    () => cycleView(1),
+    { enableOnFormTags: false, preventDefault: true },
+    [cycleView],
+  );
+  useHotkeys(
+    'left,k',
+    () => cycleView(-1),
+    { enableOnFormTags: false, preventDefault: true },
+    [cycleView],
+  );
 
   return (
     <ToggleGroupPrimitive
