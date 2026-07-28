@@ -7,7 +7,11 @@ const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
 
 function DigitReel({ value }: { value: number }) {
   return (
-    <span className="relative inline-block h-[1em] w-[1ch] overflow-hidden align-bottom">
+    <span className="relative inline-block h-[1em] w-[1ch] overflow-hidden">
+      {/* Keeps the reel on the text baseline while the strip is absolutely positioned. */}
+      <span aria-hidden className="invisible">
+        0
+      </span>
       <motion.span
         className="absolute inset-x-0 top-0 flex flex-col will-change-transform"
         initial={{ y: 0 }}
@@ -22,7 +26,7 @@ function DigitReel({ value }: { value: number }) {
         {DIGITS.map((digit) => (
           <span
             key={digit}
-            className="flex h-[1em] w-[1ch] items-center justify-center"
+            className="block h-[1em] w-[1ch] text-center leading-[1em]"
           >
             {digit}
           </span>
@@ -48,7 +52,7 @@ export function HeroTitle() {
   return (
     <h1 className="max-w-full px-1 text-pretty text-4xl font-normal tracking-tighter uppercase sm:text-5xl md:text-7xl">
       FRONTIER-BENCH v
-      <span className="inline-flex tracking-tighter tabular-nums">
+      <span className="inline-flex items-baseline leading-none tracking-tighter tabular-nums">
         0.
         <DigitReel value={tenths} />
       </span>
