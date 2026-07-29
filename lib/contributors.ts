@@ -134,7 +134,7 @@ export const CONTRIBUTOR_GROUPS: ContributorGroup[] = [
       { name: 'Michał Kowalczyk', github: 'mkow' },
       { name: 'Jin-Xiang Zhao', github: 'xiaoxiangmoe' },
       { name: 'Sanyam Satia', github: 'ssatia' },
-      { name: 'Jessie Hu', github: 'huyouare' },
+      { name: 'Jesse Hu', github: 'huyouare' },
       { name: 'sherif69-sa', github: 'sherif69-sa' },
       { name: 'Kobe Chen', github: 'kobe0938' },
       { name: 'Sam Vance', github: 'scvance' },
