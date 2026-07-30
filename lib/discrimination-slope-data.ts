@@ -4,9 +4,9 @@ import { TERMINAL_BENCH_2_1_LEADERBOARD_SNAPSHOT } from '@/lib/terminal-bench-2-
 export type DiscriminationSlopePoint = {
   model: string;
   agent: string;
-  /** Frontier-Bench pass rate (%). */
-  frontierAccuracy: number;
-  frontierReasoningEffort: string | null;
+  /** Terminal-Bench 3.0 pass rate (%). */
+  tb3Accuracy: number;
+  tb3ReasoningEffort: string | null;
   /** Terminal-Bench 2.1 pass rate (%), if the same agent+model was run. */
   terminalAccuracy: number | null;
   terminalReasoningEffort: string | null;
@@ -27,20 +27,20 @@ function agentModelKey(entry: Pick<Matchable, 'agent' | 'model'>): string {
 }
 
 /**
- * Pick the Terminal-Bench row that best matches a Frontier-Bench row:
+ * Pick the Terminal-Bench 2.1 row that best matches a Terminal-Bench 3.0 row:
  * 1. same agent + model + reasoning effort
  * 2. else same agent + model, preferring `display`, then higher accuracy
  */
-function findTerminalMatch(frontier: Matchable): Matchable | null {
+function findTerminalMatch(tb3: Matchable): Matchable | null {
   const candidates = TERMINAL_BENCH_2_1_LEADERBOARD_SNAPSHOT.filter(
-    (row) => row.agent === frontier.agent && row.model === frontier.model,
+    (row) => row.agent === tb3.agent && row.model === tb3.model,
   );
   if (candidates.length === 0) return null;
 
   const exact = candidates.find(
     (row) =>
       row.reasoningEffort != null &&
-      row.reasoningEffort === frontier.reasoningEffort,
+      row.reasoningEffort === tb3.reasoningEffort,
   );
   if (exact) return exact;
 
@@ -51,36 +51,36 @@ function findTerminalMatch(frontier: Matchable): Matchable | null {
 }
 
 /**
- * Slope-chart rows: Frontier-Bench *display* entries that also have a matching
- * Terminal-Bench agent+model run (reasoning matched when possible).
+ * Slope-chart rows: Terminal-Bench 3.0 *display* entries that also have a matching
+ * Terminal-Bench 2.1 agent+model run (reasoning matched when possible).
  * Unmatched right-side-only points are omitted.
  */
 export function buildDiscriminationSlopeData(): DiscriminationSlopePoint[] {
   const points: DiscriminationSlopePoint[] = [];
   const seen = new Set<string>();
 
-  for (const frontier of ANNOUNCEMENT_LEADERBOARD_SNAPSHOT) {
-    if (frontier.status !== 'display') continue;
-    if (frontier.model === 'GPT-5.6 Sol') continue;
-    const key = agentModelKey(frontier);
+  for (const tb3 of ANNOUNCEMENT_LEADERBOARD_SNAPSHOT) {
+    if (tb3.status !== 'display') continue;
+    if (tb3.model === 'GPT-5.6 Sol') continue;
+    const key = agentModelKey(tb3);
     if (seen.has(key)) continue;
     seen.add(key);
 
-    const terminal = findTerminalMatch(frontier);
+    const terminal = findTerminalMatch(tb3);
     if (terminal == null) continue;
 
     points.push({
-      model: frontier.model,
-      agent: frontier.agent,
-      frontierAccuracy: frontier.accuracy,
-      frontierReasoningEffort: frontier.reasoningEffort,
+      model: tb3.model,
+      agent: tb3.agent,
+      tb3Accuracy: tb3.accuracy,
+      tb3ReasoningEffort: tb3.reasoningEffort,
       terminalAccuracy: terminal.accuracy,
       terminalReasoningEffort: terminal.reasoningEffort,
       linked: true,
     });
   }
 
-  return points.sort((a, b) => b.frontierAccuracy - a.frontierAccuracy);
+  return points.sort((a, b) => b.tb3Accuracy - a.tb3Accuracy);
 }
 
 export const DISCRIMINATION_SLOPE_DATA = buildDiscriminationSlopeData();

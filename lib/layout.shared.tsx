@@ -9,7 +9,7 @@ export function baseOptions(): BaseLayoutProps {
     },
     links: [
       {
-        text: 'RUN FRONTIER-BENCH',
+        text: 'RUN TERMINAL-BENCH',
         url: '/run',
       },
       {

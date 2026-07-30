@@ -55,9 +55,10 @@ export type LeaderboardReadResponse = {
   };
 };
 
-export const FRONTIER_BENCH_PACKAGE = 'frontier-bench/frontier-bench';
+/** Hub package slug is still the pre-rename id until Hub is migrated. */
+export const TERMINAL_BENCH_PACKAGE = 'frontier-bench/frontier-bench';
 /** Hub path is org/package/leaderboard — board name is `frontier-bench` (not `main`). */
-export const FRONTIER_BENCH_LEADERBOARD = 'frontier-bench';
+export const TERMINAL_BENCH_LEADERBOARD = 'frontier-bench';
 export const HARBOR_HUB_URL = 'https://hub.harborframework.com';
 /** Public Harbor Hub edge-function host (leaderboard-read does not require auth). */
 export const HARBOR_HUB_FUNCTIONS_URL =

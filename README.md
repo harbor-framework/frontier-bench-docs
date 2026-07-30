@@ -1,4 +1,4 @@
-# frontier-bench-docs
+# Terminal-Bench 3.0 docs
 
 This is a Next.js application generated with
 [Create Fumadocs](https://github.com/fuma-nama/fumadocs).

@@ -66,8 +66,8 @@ export function DiscriminationSlopeChart() {
   const data = DISCRIMINATION_SLOPE_DATA;
   const accuracies = data.flatMap((row) =>
     row.terminalAccuracy == null
-      ? [row.frontierAccuracy]
-      : [row.terminalAccuracy, row.frontierAccuracy],
+      ? [row.tb3Accuracy]
+      : [row.terminalAccuracy, row.tb3Accuracy],
   );
   const rawMin = Math.min(...accuracies);
   const rawMax = Math.max(...accuracies);
@@ -83,7 +83,7 @@ export function DiscriminationSlopeChart() {
     }));
   const rightLabels = data.map((row) => ({
     id: `right-${row.agent}-${row.model}`,
-    y: yScale(row.frontierAccuracy, yMin, yMax),
+    y: yScale(row.tb3Accuracy, yMin, yMax),
   }));
 
   const leftY = spreadLabels(
@@ -105,7 +105,7 @@ export function DiscriminationSlopeChart() {
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         width="100%"
         role="img"
-        aria-label="Pass rate by model on Terminal-Bench 2.1 vs Frontier-Bench"
+        aria-label="Pass rate by model on Terminal-Bench 2.1 vs Terminal-Bench 3.0"
         className="mx-auto block max-w-full"
       >
         <text
@@ -134,7 +134,7 @@ export function DiscriminationSlopeChart() {
           className="fill-foreground font-mono"
           fontSize={13}
         >
-          Frontier-Bench
+          Terminal-Bench 3.0
         </text>
 
         <line
@@ -157,7 +157,7 @@ export function DiscriminationSlopeChart() {
         {data.map((row) => {
           const leftId = `left-${row.agent}-${row.model}`;
           const rightId = `right-${row.agent}-${row.model}`;
-          const fy = yScale(row.frontierAccuracy, yMin, yMax);
+          const fy = yScale(row.tb3Accuracy, yMin, yMax);
           const ty =
             row.terminalAccuracy == null
               ? null
@@ -210,7 +210,7 @@ export function DiscriminationSlopeChart() {
                 className="fill-foreground font-mono"
                 fontSize={12}
               >
-                {`${row.model} — ${formatPct(row.frontierAccuracy)}`}
+                {`${row.model} — ${formatPct(row.tb3Accuracy)}`}
               </text>
             </g>
           );

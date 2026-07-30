@@ -68,7 +68,7 @@ export function CostPassRateParetoChart() {
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         width="100%"
         role="img"
-        aria-label="Cost vs pass rate Pareto chart on Frontier-Bench"
+        aria-label="Cost vs pass rate Pareto chart on Terminal-Bench 3.0"
         className="mx-auto block max-w-full"
       >
         <text

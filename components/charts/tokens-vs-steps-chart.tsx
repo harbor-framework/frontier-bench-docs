@@ -42,7 +42,7 @@ export function TokensVsStepsChart() {
     <figure className="my-6 not-prose">
       <div className="mb-2 flex items-baseline justify-between font-mono text-[11.5px] text-muted-foreground">
         <span>Output Tokens vs Steps, Per Trial</span>
-        <span>Frontier-Bench</span>
+        <span>Terminal-Bench 3.0</span>
       </div>
       <svg
         viewBox={`0 0 ${WIDTH} ${HEIGHT}`}

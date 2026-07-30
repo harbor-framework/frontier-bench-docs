@@ -31,7 +31,7 @@ export function PassRateBarChart() {
           viewBox={`0 0 ${width} ${height}`}
           width="100%"
           role="img"
-          aria-label="Pass rates on Frontier-Bench v0.1"
+          aria-label="Pass rates on Terminal-Bench 3.0"
           className="mx-auto block max-w-full text-foreground"
         >
           {TICKS.map((tick) => {
@@ -106,7 +106,7 @@ export function PassRateBarChart() {
         </svg>
       </div>
       <figcaption className="mt-2 text-center text-sm text-muted-foreground">
-        Pass Rates on Frontier-Bench v0.1
+        Pass Rates on Terminal-Bench 3.0
       </figcaption>
     </figure>
   );

@@ -1,8 +1,10 @@
 /**
- * Snapshot of the public Frontier-Bench leaderboard for the announcement page.
+ * Snapshot of the public Terminal-Bench 3.0 leaderboard for the announcement page.
  *
  * Exported via:
  *   harbor hub leaderboard show frontier-bench/frontier-bench/frontier-bench --json
+ *
+ * (Hub package slug is still the pre-rename id.)
  *
  * This is intentionally static so the announcement chart stays a point-in-time
  * snapshot rather than tracking live Hub updates.

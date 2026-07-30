@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: appName,
     description: siteDescription,
-    images: '/frontier-bench-og-1200x630.png',
+    images: '/terminal-bench-og-1200x630.png',
     url: siteUrl,
     siteName: appName,
     locale: 'en_US',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: '/frontier-bench-twitter-1200x630.png',
+        url: '/terminal-bench-twitter-1200x630.png',
         width: 1200,
         height: 630,
       },

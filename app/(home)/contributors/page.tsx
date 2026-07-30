@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Contributors',
-  description: 'People and organizations behind Frontier-Bench.',
+  description: 'People and organizations behind Terminal-Bench 3.0.',
 };
 
 export default function ContributorsPage() {
@@ -19,7 +19,7 @@ export default function ContributorsPage() {
     >
       <h1>Contributors</h1>
       <p className="mb-10 text-muted-foreground">
-        The people and organizations building Frontier-Bench.
+        The people and organizations building Terminal-Bench 3.0.
       </p>
       <ContributorsGrid />
     </article>

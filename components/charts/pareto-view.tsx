@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  FRONTIER_BENCH_LEADERBOARD,
-  FRONTIER_BENCH_PACKAGE,
+  TERMINAL_BENCH_LEADERBOARD,
+  TERMINAL_BENCH_PACKAGE,
   fetchLeaderboard,
   leaderboardQueryKey,
 } from '@/lib/leaderboard';
@@ -42,11 +42,11 @@ export function ParetoView() {
 
   const { data, error, isPending } = useQuery({
     queryKey: leaderboardQueryKey(
-      FRONTIER_BENCH_PACKAGE,
-      FRONTIER_BENCH_LEADERBOARD,
+      TERMINAL_BENCH_PACKAGE,
+      TERMINAL_BENCH_LEADERBOARD,
     ),
     queryFn: () =>
-      fetchLeaderboard(FRONTIER_BENCH_PACKAGE, FRONTIER_BENCH_LEADERBOARD),
+      fetchLeaderboard(TERMINAL_BENCH_PACKAGE, TERMINAL_BENCH_LEADERBOARD),
   });
 
   const chartData = useMemo(

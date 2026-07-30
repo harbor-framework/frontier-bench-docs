@@ -25,8 +25,8 @@ import {
 } from '@/components/leaderboard/leaderboard-toolbar';
 import { DataTable } from '@/components/ui/data-table';
 import {
-  FRONTIER_BENCH_LEADERBOARD,
-  FRONTIER_BENCH_PACKAGE,
+  TERMINAL_BENCH_LEADERBOARD,
+  TERMINAL_BENCH_PACKAGE,
   fetchLeaderboard,
   formatLeaderboardCell,
   getAccessorValue,
@@ -326,11 +326,11 @@ function buildColumns(
 export function LeaderboardTable() {
   const { data, error, isPending } = useQuery({
     queryKey: leaderboardQueryKey(
-      FRONTIER_BENCH_PACKAGE,
-      FRONTIER_BENCH_LEADERBOARD,
+      TERMINAL_BENCH_PACKAGE,
+      TERMINAL_BENCH_LEADERBOARD,
     ),
     queryFn: () =>
-      fetchLeaderboard(FRONTIER_BENCH_PACKAGE, FRONTIER_BENCH_LEADERBOARD),
+      fetchLeaderboard(TERMINAL_BENCH_PACKAGE, TERMINAL_BENCH_LEADERBOARD),
   });
 
   const facets = useMemo(() => {
@@ -440,8 +440,8 @@ export function LeaderboardTable() {
         getRowId={(row) => row.id}
         getRowHref={(row) =>
           harborLeaderboardRowUrl(
-            FRONTIER_BENCH_PACKAGE,
-            FRONTIER_BENCH_LEADERBOARD,
+            TERMINAL_BENCH_PACKAGE,
+            TERMINAL_BENCH_LEADERBOARD,
             row.id,
           )
         }
@@ -462,7 +462,7 @@ export function LeaderboardTable() {
         }
         footer={
           <footer className="flex h-12 items-center justify-center border-t px-6 text-center text-sm text-muted-foreground">
-            Resolution rate of Frontier-Bench tasks, ranked by agent and model
+            Resolution rate of Terminal-Bench 3.0 tasks, ranked by agent and model
             performance.
           </footer>
         }

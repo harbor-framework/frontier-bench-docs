@@ -14,8 +14,8 @@ import { LeaderboardSkeleton } from '@/components/leaderboard/leaderboard-skelet
 import { LeaderboardTable } from '@/components/leaderboard/leaderboard-table';
 import { buttonVariants } from '@/components/ui/button';
 import {
-  FRONTIER_BENCH_LEADERBOARD,
-  FRONTIER_BENCH_PACKAGE,
+  TERMINAL_BENCH_LEADERBOARD,
+  TERMINAL_BENCH_PACKAGE,
   fetchLeaderboard,
   leaderboardQueryKey,
 } from '@/lib/leaderboard';
@@ -25,11 +25,11 @@ export default async function HomePage() {
 
   await queryClient.prefetchQuery({
     queryKey: leaderboardQueryKey(
-      FRONTIER_BENCH_PACKAGE,
-      FRONTIER_BENCH_LEADERBOARD,
+      TERMINAL_BENCH_PACKAGE,
+      TERMINAL_BENCH_LEADERBOARD,
     ),
     queryFn: () =>
-      fetchLeaderboard(FRONTIER_BENCH_PACKAGE, FRONTIER_BENCH_LEADERBOARD),
+      fetchLeaderboard(TERMINAL_BENCH_PACKAGE, TERMINAL_BENCH_LEADERBOARD),
   });
 
   return (
@@ -39,7 +39,7 @@ export default async function HomePage() {
           <div className="flex flex-col items-center gap-5">
             <HeroTitle />
             <p className="text-xs font-normal text-muted-foreground">
-              (formerly Terminal-Bench 3.0)
+              (formerly Frontier-Bench)
             </p>
             <p className="max-w-xl text-balance text-lg font-normal tracking-tighter text-muted-foreground">
               A benchmark to measure and evolve with the frontier of agent work

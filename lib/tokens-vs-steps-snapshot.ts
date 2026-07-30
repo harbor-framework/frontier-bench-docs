@@ -1,7 +1,7 @@
 /**
  * Per-trial output-tokens vs steps snapshot for the announcement page.
  *
- * Sourced from frontier-bench PR #1421:
+ * Sourced from Terminal-Bench 3.0 (frontier-bench) PR #1421:
  *   docs/charts/tokens_vs_steps.html
  *   commit d6f4615914ba48ad7ecfd8d0d5eb2067f689f236
  *
