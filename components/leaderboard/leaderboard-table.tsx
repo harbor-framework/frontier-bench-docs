@@ -250,8 +250,8 @@ function buildColumns(
     ),
     enableSorting: false,
     meta: {
-      headerClassName: 'w-12 text-right',
-      cellClassName: 'text-right',
+      headerClassName: 'w-12 text-center',
+      cellClassName: 'text-center',
     },
   };
 
