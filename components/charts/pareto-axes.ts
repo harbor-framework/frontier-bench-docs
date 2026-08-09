@@ -71,7 +71,7 @@ function readDateMs(row: LeaderboardRow, accessor: string): number | null {
 export const PARETO_AXES: Record<ParetoAxisId, ParetoAxisDef> = {
   accuracy: {
     id: 'accuracy',
-    label: 'Accuracy',
+    label: 'Resolution Rate',
     prefer: 'max',
     format: formatAccuracy,
     read: (row) => readNumber(row, 'metrics.accuracy'),
