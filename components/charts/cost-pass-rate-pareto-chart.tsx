@@ -180,15 +180,8 @@ export function CostPassRateParetoChart() {
           const cy = yScale(datum.y);
           const half = datum.onFrontier ? FRONTIER_DOT_HALF : DOT_HALF;
           const size = half * 2;
+          const modelText = datum.model;
           const agentPart = ` (${datum.agent})`;
-          let modelText = datum.model;
-          if (modelText.length + agentPart.length > 22) {
-            const budget = Math.max(1, 22 - agentPart.length - 1);
-            modelText =
-              modelText.length > budget
-                ? `${modelText.slice(0, budget)}…`
-                : modelText;
-          }
           return (
             <g key={datum.id}>
               <rect
