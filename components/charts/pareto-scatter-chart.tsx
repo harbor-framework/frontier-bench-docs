@@ -339,17 +339,15 @@ export function ParetoScatterChart({
           const cy = yScale(datum.y);
           const half = datum.onFrontier ? FRONTIER_DOT_HALF : DOT_HALF;
           const size = half * 2;
+          const modelText = datum.label.model;
           const agentPart = datum.label.agent
             ? ` (${datum.label.agent})`
             : '';
-          let modelText = datum.label.model;
-          if (modelText.length + agentPart.length > 22) {
-            const budget = Math.max(1, 22 - agentPart.length - 1);
-            modelText =
-              modelText.length > budget
-                ? `${modelText.slice(0, budget)}…`
-                : modelText;
-          }
+          // Place labels in the empty region above-left of the monotonic
+          // up-right frontier so the frontier line doesn't run through them;
+          // flip to the right only for points near the left edge, which would
+          // otherwise clip past the y-axis.
+          const labelLeft = cx > MARGIN.left + 96;
           return (
             <g key={datum.id}>
               {/* Invisible hit target in SVG space (avoids HTML/SVG coordinate drift). */}
@@ -386,15 +384,9 @@ export function ParetoScatterChart({
               />
               {datum.onFrontier ? (
                 <text
-                  x={
-                    cx > MARGIN.left + plotW * 0.62
-                      ? cx - half - 6
-                      : cx + half + 6
-                  }
-                  y={cy - (half + 2)}
-                  textAnchor={
-                    cx > MARGIN.left + plotW * 0.62 ? 'end' : 'start'
-                  }
+                  x={labelLeft ? cx - half - 6 : cx + half + 6}
+                  y={cy - (half + 6)}
+                  textAnchor={labelLeft ? 'end' : 'start'}
                   dominantBaseline="auto"
                   className="fill-foreground font-normal"
                   fontSize={11}
